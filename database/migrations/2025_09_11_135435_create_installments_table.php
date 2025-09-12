@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('installments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('mortgage_request_id')->constrained()->cascadeOnDelete();
+            $table->integer('no_of_payment');
+            $table->integer('total_tax_amount');
+            $table->integer('grand_total_amount');
+            $table->integer('sub_total_amount');
+            $table->integer('insurance_amount');
+            $table->string('proof')->nullable();
+            $table->boolean('is_paid');
+            $table->string('payment_type');
+            $table->integer('remaining_loan_amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

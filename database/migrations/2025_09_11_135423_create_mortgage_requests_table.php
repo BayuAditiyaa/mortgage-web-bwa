@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('house_price');
             $table->integer('monthly_amount');
             $table->string('status');
-            $table->string('documenst');
+            $table->string('documents');
             $table->timestamps();
             $table->softDeletes();
         });
