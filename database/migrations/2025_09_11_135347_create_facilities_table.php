@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -22,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facilities');
+         Schema::table('facilities', function (Blueprint $table) {
+            // Ini akan menghapus kolom 'deleted_at'
+            $table->dropSoftDeletes();
+        });
     }
 };

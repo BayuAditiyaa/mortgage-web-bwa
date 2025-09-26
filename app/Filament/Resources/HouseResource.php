@@ -4,14 +4,24 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\HouseResource\Pages;
 use App\Filament\Resources\HouseResource\RelationManagers;
+use App\Models\Facility;
 use App\Models\House;
 use Filament\Forms;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 
 class HouseResource extends Resource
 {
@@ -24,6 +34,70 @@ class HouseResource extends Resource
         return $form
             ->schema([
                 //
+                Fieldset::make('Details')
+                    ->schema([
+                        TextInput::make('name')->maxLength(255)->required(),
+
+                        TextInput::make('price')->required()->numeric()->prefix('IDR'),
+
+                        Select::make('certificate')->options([
+                            'SHM' => 'SHM',
+                            'SHGB' => 'SHGB', 
+                            'Patches' => 'Patches',
+                        ]),
+
+                        FileUpload::make('thumbnail')->required()->image(),
+
+                        Repeater::make('photos')->relationship('photos')->schema([
+                            FileUpload::make('photo')->required()->image(),
+                        ]),
+
+                        Repeater::make('facilities')->relationship('facilities')->schema([
+                            Select::make('facility_id')
+                            ->label('facility')
+                            ->options(Facility::all()->pluck('name','id'))->searchable()->required(),
+                        ]),
+                    ]),
+
+                Fieldset::make('Additional')
+                    ->schema([
+                        Textarea::make('description')->required(),
+
+                        Select::make('city_id')
+                            ->relationship('city', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+
+                        Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+
+                        TextInput::make('electric')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Watts'),
+
+                        TextInput::make('land_area')
+                            ->required()
+                            ->numeric()
+                            ->prefix('m2'),
+
+                        TextInput::make('building_area')
+                            ->required()
+                            ->numeric()
+                            ->prefix('m2'),
+
+                        TextInput::make('bedrooms')
+                            ->required()
+                            ->numeric('Unit'),
+
+                        TextInput::make('bathroom')
+                            ->required()
+                            ->numeric('Unit'),
+                    ])
             ]);
     }
 
@@ -32,6 +106,14 @@ class HouseResource extends Resource
         return $table
             ->columns([
                 //
+
+                ImageColumn::make('thumbnail'),
+
+                TextColumn::make('name')->searchable(),
+                
+                TextColumn::make('category.name'),
+
+                TextColumn::make('city.name'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

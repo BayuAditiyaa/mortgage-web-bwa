@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Forms\Components\Select;
 
 class UserResource extends Resource
 {
@@ -24,6 +28,21 @@ class UserResource extends Resource
         return $form
             ->schema([
                 //
+                TextInput::make('name')->maxLength(255)->required(),
+                TextInput::make('phone')->maxLength(255)->required(),
+                TextInput::make('email')->maxLength(255)->required()->email(),
+                TextInput::make('password')
+                ->helperText('Minimum 8 Characers')
+                ->password()
+                ->minLength(8)
+                ->maxLength(255)
+                ->required(),
+                Select::make('roles')
+                ->label('Role')
+                ->relationship('roles', 'name')
+                ->required(),
+                TextInput::make('photo')->required()->image(),
+
             ]);
     }
 
@@ -32,9 +51,12 @@ class UserResource extends Resource
         return $table
             ->columns([
                 //
+                ImageColumn::make('photo'),
+                TextColumn::make('name')->searchable(),
+  
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                // Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

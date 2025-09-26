@@ -12,6 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+
 
 class CityResource extends Resource
 {
@@ -21,9 +27,15 @@ class CityResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
+           return $form
             ->schema([
                 //
+                                Fieldset::make('Details')
+                ->schema([
+                    TextInput::make('name')->maxLength(255)->required(),
+                    
+                    FileUpload::make('photo')->required()->image(),
+                         ])
             ]);
     }
 
@@ -32,6 +44,8 @@ class CityResource extends Resource
         return $table
             ->columns([
                 //
+                              TextColumn::make('name')->searchable(),
+                ImageColumn::make('photo'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

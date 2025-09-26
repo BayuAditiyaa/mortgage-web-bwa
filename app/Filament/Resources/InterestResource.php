@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\InterestResource\Pages;
-use App\Filament\Resources\InterestResource\RelationManagers;
-use App\Models\Interest;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Interest;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\InterestResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\InterestResource\RelationManagers;
 
 class InterestResource extends Resource
 {
@@ -24,6 +28,28 @@ class InterestResource extends Resource
         return $form
             ->schema([
                 //
+
+                Select::make('house_id')
+                    ->relationship('house', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
+                Select::make('bank_id')
+                    ->relationship('bank', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
+                TextInput::make('interest')
+                    ->required()
+                    ->numeric()
+                    ->prefix('%'),
+
+                TextInput::make('duration')
+                    ->required()
+                    ->numeric()
+                    ->numeric('Years')
             ]);
     }
 
@@ -32,6 +58,15 @@ class InterestResource extends Resource
         return $table
             ->columns([
                 //
+                ImageColumn::make('house.thumbnail'),
+
+                TextColumn::make('house.name'),
+
+                TextColumn::make('bank.name'),
+
+                TextColumn::make('interest'),
+
+                TextColumn::make('duration'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
