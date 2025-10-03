@@ -24,17 +24,19 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Management';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 //
-                                Fieldset::make('Details')
-                ->schema([
-                    TextInput::make('name')->maxLength(255)->required(),
-                    
-                    FileUpload::make('photo')->required()->image(),
-                         ])
+                Fieldset::make('Details')
+                    ->schema([
+                        TextInput::make('name')->maxLength(255)->required(),
+
+                        FileUpload::make('photo')->required()->image(),
+                    ])
             ]);
     }
 
@@ -43,14 +45,15 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('name')->searchable(),
                 ImageColumn::make('photo'),
+                TextColumn::make('name')->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

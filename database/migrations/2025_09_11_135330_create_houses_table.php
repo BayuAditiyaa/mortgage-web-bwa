@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->string('certificate');
             $table->text('about');
-
             $table->integer('price');
             $table->integer('bedroom');
             $table->integer('bathroom');

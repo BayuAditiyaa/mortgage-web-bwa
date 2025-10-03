@@ -23,12 +23,16 @@ use Filament\Forms\Components\Wizard\Step;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\MortgageRequestResource\Pages;
 use App\Filament\Resources\MortgageRequestResource\RelationManagers;
+use App\Filament\Resources\MortgageRequestResource\RelationManagers\InstallmentsRelationManager;
+use Filament\Actions\Action;
 
 class MortgageRequestResource extends Resource
 {
     protected static ?string $model = MortgageRequest::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Transaction';
 
     public static function form(Form $form): Form
     {
@@ -242,6 +246,12 @@ class MortgageRequestResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+
+                Action::make('download')
+                ->label('Download')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->url(fn(MortgageRequest $record) => asset('storage/' . $record->documents))
+                ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -256,6 +266,7 @@ class MortgageRequestResource extends Resource
     {
         return [
             //
+            InstallmentsRelationManager::class
         ];
     }
 

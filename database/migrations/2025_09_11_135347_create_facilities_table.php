@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('photo');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -23,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-         Schema::table('facilities', function (Blueprint $table) {
+        Schema::table('facilities', function (Blueprint $table) {
             // Ini akan menghapus kolom 'deleted_at'
             $table->dropSoftDeletes();
         });

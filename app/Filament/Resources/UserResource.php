@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 
 class UserResource extends Resource
@@ -22,6 +23,8 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Management';
 
     public static function form(Form $form): Form
     {
@@ -41,7 +44,7 @@ class UserResource extends Resource
                 ->label('Role')
                 ->relationship('roles', 'name')
                 ->required(),
-                TextInput::make('photo')->required()->image(),
+                FileUpload::make('photo')->required()->image(),
 
             ]);
     }

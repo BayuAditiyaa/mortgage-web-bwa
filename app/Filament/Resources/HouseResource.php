@@ -29,6 +29,8 @@ class HouseResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Products';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -54,14 +56,14 @@ class HouseResource extends Resource
 
                         Repeater::make('facilities')->relationship('facilities')->schema([
                             Select::make('facility_id')
-                            ->label('facility')
+                            ->label('Facility')
                             ->options(Facility::all()->pluck('name','id'))->searchable()->required(),
                         ]),
                     ]),
 
                 Fieldset::make('Additional')
                     ->schema([
-                        Textarea::make('description')->required(),
+                        Textarea::make('about')->required(),
 
                         Select::make('city_id')
                             ->relationship('city', 'name')
@@ -90,7 +92,7 @@ class HouseResource extends Resource
                             ->numeric()
                             ->prefix('m2'),
 
-                        TextInput::make('bedrooms')
+                        TextInput::make('bedroom')
                             ->required()
                             ->numeric('Unit'),
 
