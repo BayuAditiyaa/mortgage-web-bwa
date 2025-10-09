@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('house_id')->constrained()->cascadeOnDelete();
             $table->foreignId('interest_id')->constrained()->cascadeOnDelete();
             $table->integer('duration');
-            $table->integer('bank_name');
+            $table->string('bank_name');
             $table->integer('interest');
             $table->integer('dp_total_amount');
             $table->integer('dp_percentage');

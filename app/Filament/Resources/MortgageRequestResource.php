@@ -24,7 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\MortgageRequestResource\Pages;
 use App\Filament\Resources\MortgageRequestResource\RelationManagers;
 use App\Filament\Resources\MortgageRequestResource\RelationManagers\InstallmentsRelationManager;
-use Filament\Actions\Action;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 
 class MortgageRequestResource extends Resource
 {
@@ -65,7 +67,7 @@ class MortgageRequestResource extends Resource
                                             if ($houseId) {
                                                 return Interest::where('house_id', $houseId)
                                                     ->get()
-                                                    ->pluck('id', 'interest');
+                                                    ->pluck('interest', 'id' );
                                             }
                                             return [];
                                         })
@@ -139,13 +141,13 @@ class MortgageRequestResource extends Resource
                                                 $denominator = pow(1 + $monthlyInterestRate, $totalPayments) - 1;
                                                 $monthlyPayment = $denominator > 0 ? $numerator / $denominator : 0;
 
-                                                $set('monthly_payment', round($monthlyPayment));
+                                                $set('monthly_amount', round($monthlyPayment));
 
                                                 //Total loan with interest
                                                 $loanInteresTotalAmount = $monthlyPayment * $totalPayments;
                                                 $set('loan_interest_total_amount', round($loanInteresTotalAmount));
                                             } else {
-                                                $set('monthly_payment', 0);
+                                                $set('monthly_amount', 0);
                                                 $set('loan_interest_total_amount', 0);
                                             }
                                         }),
@@ -159,6 +161,19 @@ class MortgageRequestResource extends Resource
                                     TextInput::make('loan_total_amount')
                                         ->label('Loan Amount')
                                         ->required()
+                                        ->readOnly()
+                                        ->numeric()
+                                        ->prefix('IDR'),
+
+                                    TextInput::make('monthly_amount')
+                                        ->label('Monthly Payment')
+                                        ->required()
+                                        ->readOnly()
+                                        ->numeric()
+                                        ->prefix('IDR'),
+
+                                    TextInput::make('loan_interest_total_amount')
+                                        ->label('Total Payment Amount')
                                         ->readOnly()
                                         ->numeric()
                                         ->prefix('IDR'),
@@ -245,7 +260,7 @@ class MortgageRequestResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
 
                 Action::make('download')
                 ->label('Download')
@@ -255,9 +270,9 @@ class MortgageRequestResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
