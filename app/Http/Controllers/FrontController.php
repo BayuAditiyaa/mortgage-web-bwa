@@ -24,7 +24,6 @@ class FrontController extends Controller
 
     public function index(){
         $categoriesAndCities = $this->houseService->getCategoriesAndCities();
-        dd($categoriesAndCities);
         return view('front.index', $categoriesAndCities);
     }
 
