@@ -12,6 +12,8 @@ Route::get('/category/{category:slug}', [FrontController::class, 'category'])->n
 Route::get('/details/{house:slug}', [FrontController::class, 'details'])->name('front.details');
 Route::get('/search', [FrontController::class, 'search'])->name('front.search');
 
+Route::match(['get', 'post'], '/mortgage/interest/payment/midtrans/notification', [DashboardController::class, 'paymentMidtransNotification'])->name('front.payment_midtrans_notification');
+
   
 Route::get('/dashboard', function () {
     return view('dashboard');
