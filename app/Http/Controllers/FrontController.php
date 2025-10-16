@@ -35,7 +35,7 @@ class FrontController extends Controller
 
     public function category(Category $category) {
         $category->load(['houses']);
-        return view('front.category', $category);
+        return view('front.category', compact('category'));
     }
 
     public function details(House $house) {
