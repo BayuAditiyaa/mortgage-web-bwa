@@ -51,11 +51,11 @@
                 <h1 class="font-extrabold text-[46px] leading-[60px] text-center text-white">You Deserve Big House</h1>
                 <p class="text-lg leading-8 text-center text-white">Dibangun oleh para professional sehingga memberikan<br>kecantikan sejati dan juga kehangatan bersama keluarga.</p>
             </div>
-            <form action="search-result.html" class="relative flex w-full max-w-[940px] rounded-3xl p-5 gap-5 bg-white border border-tedja-border shadow-[0px_8px_30px_0px_#06092208] mx-auto mt-auto">
+            <form action="{{ route('front.search') }}" class="relative flex w-full max-w-[940px] rounded-3xl p-5 gap-5 bg-white border border-tedja-border shadow-[0px_8px_30px_0px_#06092208] mx-auto mt-auto">
                 <div class="flex flex-col w-full max-w-[241px] gap-2 h-[84px]">
                     <p class="font-semibold">Location</p>
                     <label class="relative">
-                        <select name="" id="" class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300" required>
+                        <select name="city" id="" class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300" required>
                             <option value="" hidden disabled selected>Choose your location</option>
                             @foreach ($cities as $city )
                             <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -68,7 +68,7 @@
                 <div class="flex flex-col w-full max-w-[227px] gap-2 h-[84px]">
                     <p class="font-semibold">Category</p>
                     <label class="relative">
-                        <select name="" id="" class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300" required>
+                        <select name="category" id="" class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300" required>
                             <option value="" hidden disabled selected>Select Category</option>
                             @foreach ($categories as $category )
                             <option value="{{ $category->id }}">{{ $category->name}}</option>
@@ -80,7 +80,7 @@
                 <div class="flex flex-col w-full max-w-[232px] gap-2 h-[84px]">
                     <p class="font-semibold">Property</p>
                     <label class="relative">
-                        <select name="" id="" class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300" required>
+                        <select name="property_type" id="" class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300" required>
                             <option value="" hidden disabled selected>Select property type</option>
                             <option value="1">House</option>
                         </select>

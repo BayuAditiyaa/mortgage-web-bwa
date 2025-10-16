@@ -25,7 +25,7 @@ class HouseService {
         if(!empty($filters['category'])) {
             $query->where('category_id', $filters['category']);}
 
-        $house = $query->get();
+        $houses = $query->get();
 
         $category = Category::findOrFail($filters['category'] ?? null);
         $city = City::findOrFail($filters['city'] ?? null);
