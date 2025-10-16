@@ -40,7 +40,7 @@ class FrontController extends Controller
 
     public function details(House $house) {
         $houseDetails = $this->houseService->getHouseDetails($house);
-        return view('front.details', $houseDetails);
+        return view('front.details', compact('houseDetails'));
     }
 
     public function interest(Interest $interest){

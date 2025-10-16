@@ -4,62 +4,41 @@
     <x-navbar />
     <div class="mt-[164px] flex flex-col gap-5 text-center items-center">
         <p class="flex items-center gap-[6px] rounded-full py-[6px] px-3 bg-white border border-tedja-border">
-            <img src="assets/images/icons/crown.svg" class="flex shrink-0 size-5" alt="icon">
-            <span class="font-semibold text-sm">Top Well-Designed House by Anggga Ark</span>
+            <img src="{{ asset('assets/images/icons/crown.svg') }}" class="flex shrink-0 size-5" alt="icon">
+            <span class="font-semibold text-sm">Top Well-Designed House</span>
         </p>
-        <h1 class="font-bold text-4xl leading-[54px]">Anggana Parahyangan Golf</h1>
+        <h1 class="font-bold text-4xl leading-[54px]">{{ $houseDetails->name }}</h1>
         <div class="flex items-center justify-center gap-5">
             <div class="flex items-center gap-[6px]">
-                <img src="assets/images/icons/location.svg" class="size-6 flex shrink-0" alt="icon">
-                <p class="font-semibold">Melon, Bandung</p>
+                <img src="{{ asset('assets/images/icons/location.svg') }}" class="size-6 flex shrink-0" alt="icon">
+                <p class="font-semibold">{{ $houseDetails->category->name }}, {{ $houseDetails->city->name }}</p>
             </div>
             <div class="flex items-center gap-[6px]">
-                <img src="assets/images/icons/security-user.svg" class="size-6 flex shrink-0" alt="icon">
+                <img src="{{ asset('assets/images/icons/security-user.svg') }}" class="size-6 flex shrink-0" alt="icon">
                 <p class="font-semibold">Certified Developer</p>
             </div>
         </div>
     </div>
     <section id="Gallery" class="flex gap-5 w-full max-w-[1280px] h-[450px] px-[75px] mt-[50px] mx-auto">
         <button class="show-modal-btn relative group flex w-full h-[450px] rounded-[30px] overflow-hidden">
-            <img src="assets/images/thumbnails/thumbnails-6.png" class="w-full h-full object-cover" alt="house thumbnail">
+            <img src="{{ Storage::url($houseDetails->thumbnail) }}" class="w-full h-full object-cover"
+                alt="house thumbnail">
             <div
                 class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
+                <img src="{{ asset('assets/images/icons/eye-white-fill.svg') }}" class="size-[50px]" alt="icon">
             </div>
         </button>
         <div class="grid grid-cols-2 gap-5 w-[450px] shrink-0">
-            <button class="show-modal-btn relative group flex size-[215px] shrink-0 rounded-[22px] overflow-hidden">
-                <img src="assets/images/thumbnails/house-details-1.png" class="w-full h-full object-cover"
-                    alt="house details">
-                <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
-                </div>
-            </button>
-            <button class="show-modal-btn relative group flex size-[215px] shrink-0 rounded-[22px] overflow-hidden">
-                <img src="assets/images/thumbnails/house-details-2.png" class="w-full h-full object-cover"
-                    alt="house details">
-                <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
-                </div>
-            </button>
-            <button class="show-modal-btn relative group flex size-[215px] shrink-0 rounded-[22px] overflow-hidden">
-                <img src="assets/images/thumbnails/house-details-3.png" class="w-full h-full object-cover"
-                    alt="house details">
-                <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
-                </div>
-            </button>
-            <button class="show-modal-btn relative group flex size-[215px] shrink-0 rounded-[22px] overflow-hidden">
-                <img src="assets/images/thumbnails/house-details-4.png" class="w-full h-full object-cover"
-                    alt="house details">
-                <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <img src="assets/images/icons/eye-white-fill.svg" class="size-[50px]" alt="icon">
-                </div>
-            </button>
+            @foreach ($houseDetails->photos as $photo)
+                <button class="show-modal-btn relative group flex size-[215px] shrink-0 rounded-[22px] overflow-hidden">
+                    <img src="{{ Storage::url($photo->photo) }}" class="w-full h-full object-cover" alt="house details">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <img src="{{ asset('assets/images/icons/eye-white-fill.svg') }}" class="size-[50px]" alt="icon">
+                    </div>
+                </button>
+            @endforeach
+
         </div>
     </section>
     <section id="specs" class="w-full max-w-[1280px] px-[75px] mt-[30px] mx-auto">
@@ -67,48 +46,53 @@
             <div class="flex flex-col w-fit gap-3">
                 <p class="text-sm text-tedja-secondary">Bedroom</p>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/slider-vertical.svg" class="size-6 flex shrink-0" alt="icon">
-                    <p class="font-semibold">8 Bedroom</p>
+                    <img src="{{ asset('assets/images/icons/slider-vertical.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
+                    <p class="font-semibold">{{ $houseDetails->bedroom }} Bedroom</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
             <div class="flex flex-col w-fit gap-3">
                 <p class="text-sm text-tedja-secondary">Bathroom</p>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/slider-vertical.svg" class="size-6 flex shrink-0" alt="icon">
-                    <p class="font-semibold">8 Bathroom</p>
+                    <img src="{{ asset('assets/images/icons/slider-vertical.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
+                    <p class="font-semibold">{{ $houseDetails->bathroom }} Bathroom</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
             <div class="flex flex-col w-fit gap-3">
                 <p class="text-sm text-tedja-secondary">Certificate</p>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/note-favorite.svg" class="size-6 flex shrink-0" alt="icon">
-                    <p class="font-semibold">SHGB</p>
+                    <img src="{{ asset('assets/images/icons/note-favorite.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
+                    <p class="font-semibold">{{ $houseDetails->certificate }}</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
             <div class="flex flex-col w-fit gap-3">
                 <p class="text-sm text-tedja-secondary">Land of Area</p>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/maximize-3.svg" class="size-6 flex shrink-0" alt="icon">
-                    <p class="font-semibold">320 M²</p>
+                    <img src="{{ asset('assets/images/icons/maximize-3.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
+                    <p class="font-semibold">{{ $houseDetails->land_area }} M²</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
             <div class="flex flex-col w-fit gap-3">
                 <p class="text-sm text-tedja-secondary">Land of Building</p>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/building-3.svg" class="size-6 flex shrink-0" alt="icon">
-                    <p class="font-semibold">224 M²</p>
+                    <img src="{{ asset('assets/images/icons/building-3.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
+                    <p class="font-semibold">{{ $houseDetails->building_area }} M²</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
             <div class="flex flex-col w-fit gap-3">
                 <p class="text-sm text-tedja-secondary">Electric Power</p>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/flash.svg" class="size-6 flex shrink-0" alt="icon">
-                    <p class="font-semibold">2890 Watt</p>
+                    <img src="{{ asset('assets/images/icons/flash.svg') }}" class="size-6 flex shrink-0" alt="icon">
+                    <p class="font-semibold">{{ $houseDetails->electric }} Watt</p>
                 </div>
             </div>
         </div>
@@ -117,46 +101,20 @@
         <div class="flex flex-col gap-[30px]">
             <div id="About" class="flex flex-col gap-[14px]">
                 <h2 class="font-semibold text-[22px] leading-[33px]">About Project</h2>
-                <p class="leading-8">Discover the perfect blend of style, quality, and affordability with this modernize
-                    home, designed specifically for the new generation. This property offers dolor contemporary aesthetic,
-                    featuring sleek lines, open-concept spaces, and natural lighting that creates warm and inviting
-                    atmosphere every corner is thoughtfully crafted to provide function. Built with high-quality materials
-                    and a focus onto energy efficiency, this home is designed to last while keeping maintenance utility
-                    costs low. Whether you’re a young professional, a growing family together.</p>
+                <p class="leading-8">{{ $houseDetails->about }}.</p>
             </div>
             <div id="Nerby-Facilities" class="flex flex-col gap-[14px]">
                 <h2 class="font-semibold text-[22px] leading-[33px]">Nearby Facilities</h2>
                 <div class="grid grid-cols-4 gap-5">
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/hospital-red.svg" class="size-8 flex shrink-0" alt="icon">
-                        <p class="font-semibold">Public Hospital</p>
-                    </div>
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/shop-orange.svg" class="size-8 flex shrink-0" alt="icon">
-                        <p class="font-semibold">All Best Restaurants</p>
-                    </div>
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/security-user-purple.svg" class="size-8 flex shrink-0"
-                            alt="icon">
-                        <p class="font-semibold">Professional Securities</p>
-                    </div>
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/shopping-bag-green.svg" class="size-8 flex shrink-0"
-                            alt="icon">
-                        <p class="font-semibold">Shopping Mall</p>
-                    </div>
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/cards-green.svg" class="size-8 flex shrink-0" alt="icon">
-                        <p class="font-semibold">Financial Center</p>
-                    </div>
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/buildings-blue.svg" class="size-8 flex shrink-0" alt="icon">
-                        <p class="font-semibold">Central Business</p>
-                    </div>
-                    <div class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
-                        <img src="assets/images/icons/book-cyan.svg" class="size-8 flex shrink-0" alt="icon">
-                        <p class="font-semibold">International Schools</p>
-                    </div>
+                    @foreach ($houseDetails->facilities as $facility)
+                        <div
+                            class="flex flex-col min-h-[140px] rounded-[20px] border border-tedja-border p-5 gap-5 bg-white">
+                            <img src="{{ Storage::url($facility->facility->photo) }}" class="size-8 flex shrink-0"
+                                alt="icon">
+                            <p class="font-semibold">{{ $facility->facility->name }}</p>
+                        </div>
+                    @endforeach
+
                 </div>
             </div>
             <div id="Location" class="flex flex-col gap-[14px]">
@@ -172,33 +130,38 @@
             </div>
         </div>
         <div class="flex flex-col w-[400px] shrink-0 h-fit rounded-[30px] border border-tedja-border p-5 gap-5 bg-white">
-            <p class="font-bold text-[38px] leading-[57px] text-center text-tedja-blue">Rp 289.000.000</p>
+            <p class="font-bold text-[38px] leading-[57px] text-center text-tedja-blue">Rp {{ number_format($houseDetails->price, 0, ' ', '.') }}</p>
             <hr class="border-x-tedja-border">
             <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/tick-circle.svg" class="size-6 flex shrink-0" alt="icon">
+                    <img src="{{ asset('assets/images/icons/tick-circle.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
                     <p class="font-semibold">Dibangun developer handal</p>
                 </div>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/tick-circle.svg" class="size-6 flex shrink-0" alt="icon">
+                    <img src="{{ asset('assets/images/icons/tick-circle.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
                     <p class="font-semibold">Jaminan uang kembali 100%</p>
                 </div>
                 <div class="flex items-center gap-[6px]">
-                    <img src="assets/images/icons/tick-circle.svg" class="size-6 flex shrink-0" alt="icon">
+                    <img src="{{ asset('assets/images/icons/tick-circle.svg') }}" class="size-6 flex shrink-0"
+                        alt="icon">
                     <p class="font-semibold">Gratis biaya balik nama</p>
                 </div>
             </div>
             <hr class="border-x-tedja-border">
             <p class="font-semibold">Available Mortgages</p>
-            <div
+            @forelse ($houseDetails->interests as $interest )
+                            <div
                 class="group flex items-center justify-between rounded-[20px] ring-1 ring-tedja-border p-4 bg-white hover:ring-2 hover:ring-tedja-blue transition-all duration-300">
                 <div class="flex items-center gap-[14px]">
                     <div class="flex items-center w-[71px] h-[50px] shrink-0 overflow-hidden">
-                        <img src="assets/images/logos/bca.svg" class="w-full h-full object-contain" alt="bank logo">
+                        <img src="{{ Storage::url($interest->bank->photo) }}" class="w-full h-full object-contain"
+                            alt="bank logo">
                     </div>
                     <div>
-                        <p class="font-semibold">BCA Prioritas</p>
-                        <p class="text-sm text-tedja-secondary mt-0.5">Interest 5%</p>
+                        <p class="font-semibold">{{ $interest->bank->name }}</p>
+                        <p class="text-sm text-tedja-secondary mt-0.5">Interest {{ $interest->interest }}%</p>
                     </div>
                 </div>
                 <a href="signup.html"
@@ -206,41 +169,14 @@
                     Calculate
                 </a>
             </div>
-            <div
-                class="group flex items-center justify-between rounded-[20px] ring-1 ring-tedja-border p-4 bg-white hover:ring-2 hover:ring-tedja-blue transition-all duration-300">
-                <div class="flex items-center gap-[14px]">
-                    <div class="flex items-center w-[71px] h-[50px] shrink-0 overflow-hidden">
-                        <img src="assets/images/logos/mandiri.svg" class="w-full h-full object-contain" alt="bank logo">
-                    </div>
-                    <div>
-                        <p class="font-semibold">Mandiri KPR</p>
-                        <p class="text-sm text-tedja-secondary mt-0.5">Interest 14%</p>
-                    </div>
-                </div>
-                <a href="signup.html"
-                    class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    Calculate
-                </a>
-            </div>
-            <div
-                class="group flex items-center justify-between rounded-[20px] ring-1 ring-tedja-border p-4 bg-white hover:ring-2 hover:ring-tedja-blue transition-all duration-300">
-                <div class="flex items-center gap-[14px]">
-                    <div class="flex items-center w-[71px] h-[50px] shrink-0 overflow-hidden">
-                        <img src="assets/images/logos/dbs.svg" class="w-full h-full object-contain" alt="bank logo">
-                    </div>
-                    <div>
-                        <p class="font-semibold">DBS x Angga</p>
-                        <p class="text-sm text-tedja-secondary mt-0.5">Interest 2%</p>
-                    </div>
-                </div>
-                <a href="signup.html"
-                    class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    Calculate
-                </a>
-            </div>
+            @empty
+                Belum ada interest
+            @endforelse
+
             <hr class="border-x-tedja-border">
             <div class="flex items-center justify-center gap-[6px]">
-                <img src="assets/images/icons/security-safe-blue-fill.svg" class="size-6 flex shrink-0" alt="icon">
+                <img src="{{ asset('assets/images/icons/security-safe-blue-fill.svg') }}" class="size-6 flex shrink-0"
+                    alt="icon">
                 <p class="font-semibold">All your privacy data secured</p>
             </div>
         </div>
@@ -250,7 +186,8 @@
     <div id="Gallery-Modal" class="fixed inset-0 items-center justify-center bg-tedja-black/50 flex z-30 hidden">
         <div id="Modal-Content" class="rounded-[50px] flex flex-col gap-5 py-[40px]">
             <div class="flex max-w-[900px] max-h-[600px] overflow-hidden">
-                <img src="assets/images/thumbnails/thumbnails-6.png" class="object-contain" alt="thumbnail">
+                <img src="{{ asset('assets/images/thumbnails/thumbnails-6.png') }}" class="object-contain"
+                    alt="thumbnail">
             </div>
             <button id="closeModal"
                 class="px-5 mx-auto py-[14px] !w-fit bg-tedja-red rounded-full font-semibold text-white">
