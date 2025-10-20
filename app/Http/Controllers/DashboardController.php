@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\MortgageRequest;
 use App\Services\PaymentService;
 use App\Services\MortgageService;
+use Illuminate\Container\Attributes\Auth;
 
 class DashboardController extends Controller
 {
@@ -22,8 +23,9 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $mortgages = $this->mortgageService->getUserMortgages(auth()->id());
-        return view('customer.mortgages.index', compact($mortgages));
+        $userId = Auth::id();
+        $mortgages = $this->mortgageService->getUserMortgages($userId);
+        return view('customer.mortgages.index', compact('mortgages'));
     }
 
     public function details(MortgageRequest $mortgageRequest)

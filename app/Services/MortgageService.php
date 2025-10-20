@@ -20,8 +20,7 @@ class MortgageService
 
         $interest = Interest::findOrfail($validatedData['interest_id']);
         $house = $interest->house();
-
-        $mortgageDetails = $this->calculateMortgageDetails($house, $interest, $validatedData['dp_percentage']);
+       $mortgageDetails = $this->calculateMortgageDetails($house, $interest, $validatedData['dp_percentage']);
 
         $documentPath = $this->uploadDocument($request);
 
@@ -29,7 +28,7 @@ class MortgageService
     }
 
     public function calculateMortgageDetails($house, $interest, $dpPercentage) {
-        $housePrice = $house->price;
+        $housePrice = $interest->house->price;
         $dpTotalAmount = $housePrice * ($dpPercentage / 100);
         $loanTotalAmount = $housePrice - $dpTotalAmount;
         $durationYears = $interest->duration;
@@ -69,14 +68,16 @@ class MortgageService
     {
         $mortgageRequest = MortgageRequest::create([
             'user_id' => Auth::id(),
-            'house_id' => $details['house']->id,
+            'house_id' => $details['interest']->house->id,
             'interest_id' => $details['interest']->id,
             'interest' => $details['interest']->interest,
             'duration' => $details['interest']->duration,
+            'bank_name' => $details['interest']->bank->name,
             'dp_percentage' => $details['dpPercentage'],
             'house_price' => $details['housePrice'],
             'dp_total_amount' => $details['dpTotalAmount'],
             'loan_total_amount' => $details['loanTotalAmount'],
+            'loan_interest_total_amount' => $details['loanInterestTotalAmount'],
             'monthly_amount' => $details['monthlyAmount'],
             'status' => 'Waiting for Bank',
             'documents' => $documentPath,

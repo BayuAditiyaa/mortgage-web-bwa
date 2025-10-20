@@ -44,7 +44,7 @@ class FrontController extends Controller
     }
 
     public function interest(Interest $interest){
-        return view('customer.mortgages.request_mortgage', $interest);
+        return view('customer.mortgages.request_mortgage', compact('interest'));
     }
 
     public function request_interest(Request $request){
@@ -57,6 +57,6 @@ class FrontController extends Controller
         if(!$interest) {
             return redirect()->route('front.index')->with('error', 'Invalid request, please try again.');
         }
-        return view('customer.mortgages.success_request', compact($interest));
+        return view('customer.mortgages.success_request', compact('interest'));
     }
 }

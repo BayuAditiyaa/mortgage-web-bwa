@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/request/mortgage/{interest}', [FrontController::class, 'interest'])->name('front.interest');
 
-    Route::get('/request/mortgage/submitted', [FrontController::class, 'request_interest'])->name('front.interest.submitted'); 
+    Route::post('/request/mortgage/submitted', [FrontController::class, 'request_interest'])->name('front.interest.submitted'); 
 
     Route::get('/request/success', [FrontController::class, 'request_success'])->name('front.request_success'); 
 

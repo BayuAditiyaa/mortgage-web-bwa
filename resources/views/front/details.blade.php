@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Details page')
+@section('title', 'House Details page')
 @section('content')
     <x-navbar />
     <div class="mt-[164px] flex flex-col gap-5 text-center items-center">
@@ -164,7 +164,7 @@
                         <p class="text-sm text-tedja-secondary mt-0.5">Interest {{ $interest->interest }}%</p>
                     </div>
                 </div>
-                <a href="signup.html"
+                <a href="{{ route('front.interest', $interest->id) }}"
                     class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
                     Calculate
                 </a>
