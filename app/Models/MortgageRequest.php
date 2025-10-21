@@ -34,11 +34,11 @@ class MortgageRequest extends Model
     public function getRemainingLoantAmountAttribute() {
 
         if($this->installments()->count() === 0){
-            return $this->loan_interets_total_amount;
+            return $this->loan_interest_total_amount;
         }
 
         $totalPaid = $this->installments()->where('is_paid', true)->sum('sub_total_amount');
         
-        return max($this->loan_interets_total_amount - $totalPaid, 0);
+        return max($this->loan_interest_total_amount - $totalPaid, 0);
     }
 }

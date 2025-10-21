@@ -116,7 +116,7 @@ class MortgageService
     }
 
     public function getInstallmentPaymentDetails(MortgageRequest $mortgageRequest){
-        $remainingLoanAmount = $mortgageRequest->remaining_loan_amount;
+        $remainingLoanAmount = $mortgageRequest->remaining_loant_amount;
         $mortgageRequest->load(['house.city', 'house.category']);
         $monthlyPayment = $mortgageRequest->monthly_amount;
         $insurance = 900000;

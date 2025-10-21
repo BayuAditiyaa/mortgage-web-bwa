@@ -103,63 +103,71 @@
                           class="w-[440px] placeholder:font-normal placeholder:text-base placeholder:leading-[24px] placeholder:text-tedja-secondary rounded-full border border-tedja-black py-[14px] pl-5 focus:outline-none pr-[64px] outline-none focus:ring-[2px] focus:ring-tedja-blue focus:border-transparent transition-all duration-300"
                           placeholder="Search your mortgage" />
                   </form>
-                  <div class="flex items-center gap-5">
-                      <div class="flex items-center gap-[12px]">
-                          <a href="" class="shrink-0">
-                              <div
-                                  class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
-                                  <img src="{{ asset('assets/images/icons/device-message.svg') }}" alt="icon" />
-                              </div>
-                          </a>
-                          <a href="" class="shrink-0">
-                              <div
-                                  class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
-                                  <img src="{{ asset('assets/images/icons/cup.svg') }}" alt="icon" />
-                              </div>
-                          </a>
-                          <a href="" class="shrink-0">
-                              <div
-                                  class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
-                                  <img src="{{ asset('assets/images/icons/folder-favorite.svg') }}" alt="icon" />
-                              </div>
-                          </a>
+                   <div class="flex items-center gap-5">
+                       <div class="flex items-center gap-[12px]">
+                           <a href="" class="shrink-0">
+                               <div
+                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
+                                   <img src="{{ asset('assets/images/icons/device-message.svg') }}" alt="icon" />
+                               </div>
+                           </a>
+                           <a href="" class="shrink-0">
+                               <div
+                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
+                                   <img src="{{ asset('assets/images/icons/cup.svg') }}" alt="icon" />
+                               </div>
+                           </a>
+                           <a href="" class="shrink-0">
+                               <div
+                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
+                                   <img src="{{ asset('assets/images/icons/folder-favorite.svg') }}" alt="icon" />
+                               </div>
+                           </a>
 
-                      </div>
-                      <div class="w-px bg-[#F2F2F4] h-[50px]"></div>
-                      <button id="Profile" class="relative">
-                          <div class="flex items-center gap-[14px]">
-                              <div class="flex text-right flex-col gap-0.5">
-                                  <p class="text-sm text-tedja-secondary">Howdy,</p>
-                                  <p class="font-semibold">Sarina Dwi</p>
-                              </div>
-                              <div class="flex rounded-full size-[50px] overflow-hidden">
-                                  <img src="{{ asset('assets/images/photos/profile.png') }}"
-                                      class="w-full h-full object-cover" alt="photo">
-                              </div>
-                          </div>
-                          <ul
-                              class="hidden absolute top-full mt-[10px] right-0 flex flex-col w-[170px] shrink-0 h-fit text-left rounded-xl border border-tedja-border py-5 px-5 bg-white shadow-[0px_10px_30px_0px_#B8B8B840] gap-[14px]">
-                              <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Rewards</a>
-                              </li>
-                              <li>
-                                  <a href="my-mortgages.html" class="hover:text-tedja-blue transition-all duration-300">My
-                                      Mortgages</a>
-                              </li>
-                              <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Learn
-                                      Property</a>
-                              </li>
-                              <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Settings</a>
-                              </li>
-                              <li>
-                                  <a href="index.html"
-                                      class="hover:text-tedja-blue transition-all duration-300">Logout</a>
-                              </li>
-                          </ul>
-                      </button>
-                  </div>
+                       </div>
+                       <div class="w-px bg-[#F2F2F4] h-[50px]"></div>
+                       <button id="Profile" class="relative">
+                           <div class="flex items-center gap-[14px]">
+                               <div class="flex text-right flex-col gap-0.5">
+                                   <p class="text-sm text-tedja-secondary">Howdy,</p>
+                                   <p class="font-semibold">{{ Auth::user()->name }}</p>
+                               </div>
+                               <div class="flex rounded-full size-[50px] overflow-hidden">
+                                   <img src="{{ Storage::url(Auth::user()->photo) }}" class="w-full h-full object-cover"
+                                       alt="photo">
+                               </div>
+                           </div>
+                           <ul
+                               class="hidden absolute top-full mt-[10px] right-0 flex flex-col w-[170px] shrink-0 h-fit text-left rounded-xl border border-tedja-border py-5 px-5 bg-white shadow-[0px_10px_30px_0px_#B8B8B840] gap-[14px]">
+                               <li>
+                                   <a href="#" class="hover:text-tedja-blue transition-all duration-300">Rewards</a>
+                               </li>
+                               <li>
+                                   <a href="{{ route('dashboard') }}"
+                                       class="hover:text-tedja-blue transition-all duration-300">My Mortgages</a>
+                               </li>
+                               <li>
+                                   <a href="#" class="hover:text-tedja-blue transition-all duration-300">Learn
+                                       Property</a>
+                               </li>
+                               <li>
+                                   <a href="#"
+                                       class="hover:text-tedja-blue transition-all duration-300">Settings</a>
+                               </li>
+                               <li>
+                                   <form method="POST" action="{{ route('logout') }}">
+                                       @csrf
+
+                                       <a href="route('logout')" class="hover:text-tedja-blue transition-all duration-300"
+                                           onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                           {{ __('Log Out') }}
+                                       </a>
+                                   </form>
+                               </li>
+                           </ul>
+                       </button>
+                   </div>
               </section>
               <main class="flex w-full flex-col justify-center gap-[30px] pt-[28px] pb-[70px]">
                   <header class="flex flex-col gap-[6px]">
@@ -309,7 +317,9 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Down Payment</p>
                                                       </div>
-                                                      <strong class="font-semibold">Rp {{ number_format($mortgageRequest->dp_total_amount, 0, '', '.') }} ({{ number_format($mortgageRequest->dp_percentage, 0, '', '.') }}%)</strong>
+                                                      <strong class="font-semibold">Rp
+                                                          {{ number_format($mortgageRequest->dp_total_amount, 0, '', '.') }}
+                                                          ({{ number_format($mortgageRequest->dp_percentage, 0, '', '.') }}%)</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -317,7 +327,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Total Loan Amount</p>
                                                       </div>
-                                                      <strong class="font-semibold">Rp {{ number_format($mortgageRequest->loan_total_amount, 0, '', '.') }}</strong>
+                                                      <strong class="font-semibold">Rp
+                                                          {{ number_format($mortgageRequest->loan_total_amount, 0, '', '.') }}</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -325,7 +336,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Monthly Payment</p>
                                                       </div>
-                                                      <strong class="font-semibold">Rp {{ number_format($mortgageRequest->monthly_amount, 0, '', '.') }}</strong>
+                                                      <strong class="font-semibold">Rp
+                                                          {{ number_format($mortgageRequest->monthly_amount, 0, '', '.') }}</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -333,7 +345,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Monthly PPN 11%</p>
                                                       </div>
-                                                      <strong class="font-semibold">Rp {{ number_format($totalTaxAmount, 0, '', '.') }}</strong>
+                                                      <strong class="font-semibold">Rp
+                                                          {{ number_format($totalTaxAmount, 0, '', '.') }}</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -341,7 +354,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Monthly Insurance</p>
                                                       </div>
-                                                      <strong class="font-semibold">Rp {{ number_format($insurance, 0, '', '.') }}</strong>
+                                                      <strong class="font-semibold">Rp
+                                                          {{ number_format($insurance, 0, '', '.') }}</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -384,7 +398,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Bank Interest Guarantee</p>
                                                       </div>
-                                                      <strong class="font-semibold">{{ $mortgageRequest->interest }}%</strong>
+                                                      <strong
+                                                          class="font-semibold">{{ $mortgageRequest->interest }}%</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -392,7 +407,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Loan Duration</p>
                                                       </div>
-                                                      <strong class="font-semibold">{{ $mortgageRequest->duration }} Years</strong>
+                                                      <strong class="font-semibold">{{ $mortgageRequest->duration }}
+                                                          Years</strong>
                                                   </div>
                                                   <div class="flex items-center justify-between">
                                                       <div class="flex items-center gap-2">
@@ -400,7 +416,8 @@
                                                               alt="icon" class="size-6 shrink-0">
                                                           <p>Remaining Loan</p>
                                                       </div>
-                                                      <strong class="font-semibold">Rp {{ number_format($mortgageRequest->remaining_loan_amount, 0, '', '.') }}</strong>
+                                                      <strong class="font-semibold">Rp
+                                                          {{ number_format($mortgageRequest->remaining_loant_amount, 0, '', '.') }}</strong>
                                                   </div>
 
                                               </div>
@@ -439,21 +456,77 @@
 
                               </section>
                               <section id="ContainerInstallments" class="pr-5">
-                                  <section id="NotAvailable" class="py-[40px] flex justify-center">
-                                      <div class="flex flex-col gap-5 w-[460px] mx-auto">
-                                          <div class="flex flex-col gap-[12px]">
-                                              <h4 class="font-bold text-xl leading-[30px] text-center">Not Available</h4>
-                                              <p class="leading-7 text-center">Status mortgage anda masih dalam proses
-                                                  sehingga anda belum dapat melakukan pembayaran installments pada cicilan
-                                                  KPR rumah tersebut, mohon bersabar.</p>
+                                  @if ($mortgageRequest->status !== 'Approved')
+                                      <section id="NotAvailable" class="py-[40px] flex justify-center">
+                                          <div class="flex flex-col gap-5 w-[460px] mx-auto">
+                                              <div class="flex flex-col gap-[12px]">
+                                                  <h4 class="font-bold text-xl leading-[30px] text-center">Not Available
+                                                  </h4>
+                                                  <p class="leading-7 text-center">Status mortgage anda masih dalam proses
+                                                      sehingga anda belum dapat melakukan pembayaran installments pada
+                                                      cicilan
+                                                      KPR rumah tersebut, mohon bersabar.</p>
+                                              </div>
+                                              <a href="">
+                                                  <div
+                                                      class="bg-tedja-green rounded-full font-semibold w-fit mx-auto py-[14px] px-5">
+                                                      Call Tedja Sales</div>
+                                              </a>
                                           </div>
-                                          <a href="">
-                                              <div
-                                                  class="bg-tedja-green rounded-full font-semibold w-fit mx-auto py-[14px] px-5">
-                                                  Call Tedja Sales</div>
-                                          </a>
-                                      </div>
-                                  </section>
+                                      </section>
+                                  @else
+                                      <section id="Available" class="flex flex-col gap-5">
+                                          <div class="flex items-center justify-between">
+                                              <div class="flex flex-col gap-[2px]">
+                                                  <h4 class="font-bold text-xl leading-[30px]">Installments Histories</h4>
+                                                  <p class="text-sm leading-[21px] text-tedja-secondary">Tedja always make
+                                                      your family comfortable</p>
+                                              </div>
+                                              <a href="{{ route('dashboard.installment.payment' , $mortgageRequest) }}">
+                                                  <div class="rounded-full py-[14px] px-5 bg-tedja-green font-semibold">
+                                                      Make a New Payment</div>
+                                              </a>
+                                          </div>
+                                          <div class="flex flex-col gap-5">
+                                              @forelse ($mortgageRequest->installments as $installment)
+                                                  <div
+                                                      class="flex items-center justify-between p-[10px] rounded-[30px] border border-[#F2F2F4]">
+                                                      <div class="flex items-center gap-[54px]">
+                                                          <img src="{{ asset('assets/images/icons/crown-blue-fill.svg') }}"
+                                                              alt="icon" class="size-[60px] shrink-0">
+                                                          <div class="flex flex-col gap-[2px]">
+                                                              <h5 class="text-sm leading-[21px] text-tedja-secondary">Grand
+                                                                  Total</h5>
+                                                              <strong class="font-bold">Rp
+                                                                  {{ number_format($installment->grand_total_amount, 0, '', '.') }}</strong>
+                                                          </div>
+                                                      </div>
+                                                      <span
+                                                          class="font-semibold text-[#FAFAFA] rounded-full bg-tedja-blue px-[10px] py-[6px]">Settlement</span>
+                                                      <div class="flex flex-col gap-[2px]">
+                                                          <h5 class="text-sm leading-[21px] text-tedja-secondary">Payment
+                                                          </h5>
+                                                          <strong class="font-bold">Payment of
+                                                              {{ $installment->no_of_payment }}</strong>
+                                                      </div>
+                                                      <div class="flex flex-col gap-[2px]">
+                                                          <h5 class="text-sm leading-[21px] text-tedja-secondary">Date</h5>
+                                                          <strong
+                                                              class="font-bold">{{ $installment->created_at->format('d M, Y') }}</strong>
+                                                      </div>
+                                                      <a href="my-mortgages-details-installment.html" class="shrink-0">
+                                                          <div
+                                                              class="rounded-full py-[12px] font-semibold flex justify-center w-[140px] bg-tedja-black text-[#FAFAFA]">
+                                                              Details</div>
+                                                      </a>
+                                                  </div>
+                                              @empty
+                                                  <p>Belum ada installment</p>
+                                              @endforelse
+
+                                          </div>
+                                      </section>
+                                  @endif
                               </section>
                               <section id="ContainerGuidance" class="px-5">
                                   <div class="flex flex-col gap-2">

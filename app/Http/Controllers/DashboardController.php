@@ -44,7 +44,7 @@ class DashboardController extends Controller
     public function installment_payment(MortgageRequest $mortgageRequest)
     {
         $installmentPaymentDetails = $this->mortgageService->getInstallmentPaymentDetails($mortgageRequest);
-        return view('customer.installment.pay_installment', $installmentPaymentDetails);
+        return view('customer.installments.pay_installment', $installmentPaymentDetails);
     }
 
     public function paymentStoreMidtrans(Request $request)
