@@ -86,7 +86,7 @@
                                  <p>House Price</p>
                              </div>
                              <strong class="font-semibold">Rp
-                                 {{ number_format($interest->house->price, 0, ' ', '.') }}000</strong>
+                                 {{ number_format($interest->house->price, 0, '', '.') }}</strong>
                          </div>
                          <div class="flex items-center justify-between">
                              <div class="flex items-center gap-2">

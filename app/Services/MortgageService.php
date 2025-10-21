@@ -58,7 +58,7 @@ class MortgageService
 
     public function uploadDocument($request)
     {
-        if ($request->hasFile('document')) {
+        if ($request->hasFile('documents')) {
             return $request->file('documents')->store('document', 'public');
         }
         return null;

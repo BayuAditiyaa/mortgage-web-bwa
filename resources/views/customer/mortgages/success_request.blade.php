@@ -53,11 +53,11 @@
                        ekspetasi</p>
                </div>
                <div class="flex items-center justify-center gap-3">
-                   <a href="my-mortgages.html"
+                   <a href="{{ route('dashboard') }}"
                        class="rounded-full py-[14px] px-5 w-[194px] text-center font-semibold text-white bg-tedja-black">
                        My Mortgages
                    </a>
-                   <a href="index.html"
+                   <a href="{{ route('front.index') }}"
                        class="rounded-full py-[14px] px-5 w-[194px] text-center font-semibold bg-tedja-green">
                        Explore Houses
                    </a>
