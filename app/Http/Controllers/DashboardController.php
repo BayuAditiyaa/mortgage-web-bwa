@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\MortgageRequest;
 use App\Services\PaymentService;
 use App\Services\MortgageService;
-use Illuminate\Container\Attributes\Auth;
+// TAMBAHKAN BARIS INI
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {

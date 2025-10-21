@@ -22,6 +22,10 @@ class MortgageRequest extends Model
         return $this->belongsTo(House::class, 'house_id');
     }
 
+    public function interestModel(){
+        return $this->belongsTo(Interest::class, 'interest_id');
+    }
+
     public function installments()
     {
         return $this->hasMany(Installment::class);
