@@ -11,7 +11,8 @@ class MortgageService
 {
     //
 
-    public function handleInterestRequest($request){
+    public function handleInterestRequest($request)
+    {
         $validatedData = $request->validate([
             'dp_percentage' => 'required|integer|min:0|max:100',
             'interest_id' => 'required|integer|exists:interests,id',
@@ -20,14 +21,15 @@ class MortgageService
 
         $interest = Interest::findOrfail($validatedData['interest_id']);
         $house = $interest->house();
-       $mortgageDetails = $this->calculateMortgageDetails($house, $interest, $validatedData['dp_percentage']);
+        $mortgageDetails = $this->calculateMortgageDetails($house, $interest, $validatedData['dp_percentage']);
 
         $documentPath = $this->uploadDocument($request);
 
         return $this->createMortgageRequest($mortgageDetails, $documentPath);
     }
 
-    public function calculateMortgageDetails($house, $interest, $dpPercentage) {
+    public function calculateMortgageDetails($house, $interest, $dpPercentage)
+    {
         $housePrice = $interest->house->price;
         $dpTotalAmount = $housePrice * ($dpPercentage / 100);
         $loanTotalAmount = $housePrice - $dpTotalAmount;
@@ -52,8 +54,6 @@ class MortgageService
             'monthlyAmount',
             'loanInterestTotalAmount',
         );
-        
-
     }
 
     public function uploadDocument($request)
@@ -94,11 +94,13 @@ class MortgageService
         return Interest::findOrFail(session('interest_id')) ?? null;
     }
 
-    public function getUserMortgages($userId){
+    public function getUserMortgages($userId)
+    {
         return MortgageRequest::with(['house', 'house.city', 'house.category'])->where('user_id', $userId)->get();
     }
 
-    public function getMortgageDetails( MortgageRequest $mortgageRequest){
+    public function getMortgageDetails(MortgageRequest $mortgageRequest)
+    {
         $mortgageRequest->load(['house.city', 'house.category', 'installments']);
         $monthlyPayment = $mortgageRequest->monthly_amount;
         $insurance = 900000;
@@ -111,11 +113,13 @@ class MortgageService
         );
     }
 
-    public function getInstallmentDetails(Installment $installment){
+    public function getInstallmentDetails(Installment $installment)
+    {
         return $installment->load(['mortgageRequest.house.city']);
     }
 
-    public function getInstallmentPaymentDetails(MortgageRequest $mortgageRequest){
+    public function getInstallmentPaymentDetails(MortgageRequest $mortgageRequest)
+    {
         $remainingLoanAmount = $mortgageRequest->remaining_loant_amount;
         $mortgageRequest->load(['house.city', 'house.category']);
         $monthlyPayment = $mortgageRequest->monthly_amount;
@@ -127,14 +131,29 @@ class MortgageService
         return compact(
             'mortgageRequest',
             'grandTotalAmount',
-            'monthlyPayment', 
+            'monthlyPayment',
             'totalTaxAmount',
             'insurance',
             'remainingLoanAmount',
             'remainingLoanAmountAfterPayment',
         );
-    } 
+    }
 
-    public function getMortgageRequest($mortgageRequestId){
-        return MortgageRequest::findOrFail($mortgageRequestId);    }
+    public function getMortgageRequest($mortgageRequestId)
+    {
+    //     // Cari data
+    // $mortgage = MortgageRequest::find($mortgageRequestId);
+
+    // // Cek secara manual jika hasilnya null
+    // if ($mortgage === null) {
+    //     // Alihkan ke halaman lain dengan pesan error
+    //     return redirect()->route('front.index')->with('error', 'Data KPR tidak ditemukan!');
+    // }
+
+    // return $mortgage;
+
+    // // Jika ditemukan, lanjutkan
+    // // return view('mortgages.show', compact('mortgage'));
+        return MortgageRequest::findOrFail($mortgageRequestId);
+    }
 }

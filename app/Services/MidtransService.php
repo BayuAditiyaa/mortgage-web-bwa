@@ -18,7 +18,7 @@ class MidtransService {
         Config::$is3ds = config('midtrans.is3ds');
     }
 
-    public function createSnapToken(array $params): string
+    public function createSnapToken(array $params)
     {
         try {
             return Snap::getSnapToken($params);

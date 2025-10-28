@@ -38,7 +38,7 @@ class DashboardController extends Controller
     public function instalment_details(Installment $installment)
     {
         $installmentDetails = $this->mortgageService->getInstallmentDetails($installment);
-        return view('customer.installment.index', compact($installmentDetails));
+        return view('customer.installment.index', compact('installmentDetails'));
     }
 
     public function installment_payment(MortgageRequest $mortgageRequest)
@@ -49,12 +49,13 @@ class DashboardController extends Controller
 
     public function paymentStoreMidtrans(Request $request)
     {
-
+        dd($request);
         try {
             $mortgageRequest = $this->mortgageService->getMortgageRequest($request->input('mortgage_request_id'));
             $snapToken = $this->paymentService->createPayment($mortgageRequest);
+            return response()->json(['snap_token' => $snapToken], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Payment Failed' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Payment Failed tolol' . $e->getMessage() ], 500);
         }
     }
 

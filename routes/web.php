@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/mortgage/{mortgageRequest}/installment/payment', [DashboardController::class, 'installment_payment'])->name('dashboard.installment.payment');
 
-    Route::post('/dashboard/mortgage/installment/payment', [DashboardController::class, 'paymentStoreMidtrans'])->name('dashboard.installment.payment_store_ midtrans');
+    Route::match(['get', 'post'] ,'/dashboard/mortgage/installment/payment', [DashboardController::class, 'paymentStoreMidtrans'])->name('dashboard.installment.payment_store_ midtrans');
 
     Route::get('/request/mortgage/{interest}', [FrontController::class, 'interest'])->name('front.interest');
 
