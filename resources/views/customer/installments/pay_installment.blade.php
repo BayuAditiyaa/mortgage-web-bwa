@@ -338,7 +338,7 @@
   @endsection
 
   @push('after-scripts')
-      <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-Vs-VeSUowaizV5kg"></script>
+      <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
       <script type="text/javascript">
         const payButton = document.getElementById('pay-button');
         payButton.addEventListener('click', function (e) {
