@@ -5,8 +5,6 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
-
-
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/details/{house:slug}', [FrontController::class, 'details'])->name('front.details');
@@ -36,10 +34,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/mortgages/', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::get('/dashboard/mortgages/{mortgageRequest}', [DashboardController::class, 'details'])->name('dashboard.mortgage.details');
+    Route::get('/dashboard/mortgage/{mortgageRequest}', [DashboardController::class, 'details'])->name('dashboard.installment.details');
 
-    
-    Route::get('/dashboard/mortgages/installment/{installment}', [DashboardController::class, 'installment'])->name('dashboard.installment.details');
+    Route::get('/dashboard/mortgages/installment/{installment}', [DashboardController::class, 'installment_details'])->name('dashboard.mortgage.details');
 
 
 });

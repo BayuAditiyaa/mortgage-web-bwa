@@ -252,7 +252,7 @@
                                    </div>
                                </div>
                                <div class="buttons flex flex-col gap-[12px] shrink-0">
-                                   <a href="{{ route('dashboard.mortgage.details', $mortgage) }}">
+                                   <a href="{{ route('dashboard.installment.details', $mortgage) }}">
                                        <div
                                            class="font-semibold hover:text-[#FAFAFA] rounded-full py-[12px] w-[140px] border text-center border-tedja-black text-tedja-black bg-tedja-black transition-all duration-300 text-white">
                                            Manage</div>

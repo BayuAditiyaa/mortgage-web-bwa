@@ -35,10 +35,10 @@ class DashboardController extends Controller
         return view('customer.mortgages.details', $mortgageDetails);
     }
 
-    public function instalment_details(Installment $installment)
+    public function installment_details(Installment $installment)
     {
         $installmentDetails = $this->mortgageService->getInstallmentDetails($installment);
-        return view('customer.installment.index', compact('installmentDetails'));
+        return view('customer.installments.index', compact('installmentDetails'));
     }
 
     public function installment_payment(MortgageRequest $mortgageRequest)

@@ -514,7 +514,7 @@
                                                           <strong
                                                               class="font-bold">{{ $installment->created_at->format('d M, Y') }}</strong>
                                                       </div>
-                                                      <a href="my-mortgages-details-installment.html" class="shrink-0">
+                                                      <a href="{{ route('dashboard.mortgage.details', $installment) }}" class="shrink-0">
                                                           <div
                                                               class="rounded-full py-[12px] font-semibold flex justify-center w-[140px] bg-tedja-black text-[#FAFAFA]">
                                                               Details</div>
