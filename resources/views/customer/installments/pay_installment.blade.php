@@ -344,7 +344,7 @@
         payButton.addEventListener('click', function (e) {
             e.preventDefault();
 
-            fetch('{{ route('dashboard.installment.payment_store_ midtrans') }}' , {
+            fetch('{{ route('dashboard.installment.payment_store_midtrans') }}' , {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -354,14 +354,28 @@
                     mortgage_request_id : {{ $mortgageRequest->id }},
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+    // --- TAMBAHKAN BLOK INI ---
+    // Cek apakah server merespons dengan sukses (status 200-299)
+    if (!response.ok) {
+        // Jika tidak, baca respons sebagai teks dan lempar sebagai error
+        // Ini akan menunjukkan error PHP di console Anda
+        return response.text().then(text => { 
+            throw new Error('Server returned an error: ' + text) 
+        });
+    }
+    // --- SELESAI ---
+
+    // Jika berhasil, lanjutkan membaca sebagai JSON
+    return response.json();
+})
             .then(data => {
                 console.log(data.snap_token);
                 
                 if(data.snap_token){
                     snap.pay(data.snap_token, {
                         onSuccess: function (result) {
-                            window.location.href = `/dashboard/mortgage/{{ $mortgageRequest->id }}`;
+                            window.location.href = `/dashboard/mortgages/{{ $mortgageRequest->id }}`;
                         },
                         onPending: function (result) {
                             alert('Transaction Pending')

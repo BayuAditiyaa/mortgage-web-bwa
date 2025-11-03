@@ -49,7 +49,6 @@ class DashboardController extends Controller
 
     public function paymentStoreMidtrans(Request $request)
     {
-        dd($request);
         try {
             $mortgageRequest = $this->mortgageService->getMortgageRequest($request->input('mortgage_request_id'));
             $snapToken = $this->paymentService->createPayment($mortgageRequest);
