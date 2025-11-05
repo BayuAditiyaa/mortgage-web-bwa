@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 <head>
     <title>@yield('title')</title>
     <meta charset="UTF-8">
@@ -11,12 +10,10 @@
         rel="stylesheet" />
         @stack('after-styles')
 </head>
-
 <body>
     @yield('content')
      <script src="{{ asset('js/navbar-dropdown.js') }}"></script>
     @stack('after-scripts')
 
 </body>
-
 </html>
