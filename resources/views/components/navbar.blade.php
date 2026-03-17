@@ -6,7 +6,7 @@
                 </a>
                 <ul class="flex items-center gap-[30px]">
                     <li class="group active">
-                        <a href="index.html"
+                        <a href="{{ route('front.index') }}"
                             class="hover:font-bold group-[.active]:font-bold transition-all duration-300">Home</a>
                     </li>
                     <li class="group">
