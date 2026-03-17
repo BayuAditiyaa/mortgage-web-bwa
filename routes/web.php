@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/request/success', [FrontController::class, 'request_success'])->name('front.request_success'); 
 
-    Route::get('/dashboard/mortgages/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/mortgages', [DashboardController::class, 'index'])->name('dashboard.mortgages.index');
     
     Route::get('/dashboard/mortgage/{mortgageRequest}', [DashboardController::class, 'details'])->name('dashboard.installment.details');
 
