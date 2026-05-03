@@ -11,7 +11,7 @@
         <div class="relative flex flex-col mt-[244px] gap-5 items-center">
             <p class="flex items-center gap-[6px] rounded-full py-[6px] px-3 bg-white bg-white border border-tedja-border">
                 <img src="{{ asset('assets/images/icons/crown.svg') }}" class="flex shrink-0 size-5" alt="icon">
-                <span class="font-semibold text-sm">Top Well-Designed House by Anggga Ark</span>
+                <span class="font-semibold text-sm">Top Well-Designed House</span>
             </p>
             <h1 class="font-extrabold text-[46px] leading-[60px] text-center text-white">You Deserve Big House</h1>
             <p class="text-lg leading-8 text-center text-white">Dibangun oleh para professional sehingga
@@ -24,15 +24,15 @@
                 <label class="relative">
                     <select name="city" id=""
                         class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300"
-                        required>
-                        <option value="" hidden disabled selected>Choose your location</option>
+                        >
+                        <option value="" selected>All locations</option>
                         @foreach ($cities as $city)
                             <option value="{{ $city->id }}">{{ $city->name }}</option>
                         @endforeach
 
                     </select>
                     <img src="{{ asset('assets/images/icons/arrow-down.svg') }}"
-                        class="absolute size-5 transform -translate-y-1/2 top-1/2 right-5" alt="icon">
+                        class="absolute size-5 transform -translate-y-1/2 top-1/2 right-5" style="pointer-events: none;" alt="icon">
                 </label>
             </div>
             <div class="flex flex-col w-full max-w-[227px] gap-2 h-[84px]">
@@ -40,14 +40,14 @@
                 <label class="relative">
                     <select name="category" id=""
                         class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300"
-                        required>
-                        <option value="" hidden disabled selected>Select Category</option>
+                        >
+                        <option value="" selected>All categories</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                     <img src="{{ asset('assets/images/icons/arrow-down.svg') }}"
-                        class="absolute size-5 transform -translate-y-1/2 top-1/2 right-5" alt="icon">
+                        class="absolute size-5 transform -translate-y-1/2 top-1/2 right-5" style="pointer-events: none;" alt="icon">
                 </label>
             </div>
             <div class="flex flex-col w-full max-w-[232px] gap-2 h-[84px]">
@@ -55,12 +55,12 @@
                 <label class="relative">
                     <select name="property_type" id=""
                         class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold invalid:font-normal focus:ring-2 focus:ring-tedja-blue transition-all duration-300"
-                        required>
-                        <option value="" hidden disabled selected>Select property type</option>
+                        >
+                        <option value="" selected>All property types</option>
                         <option value="1">House</option>
                     </select>
                     <img src="{{ asset('assets/images/icons/arrow-down.svg') }}"
-                        class="absolute size-5 transform -translate-y-1/2 top-1/2 right-5" alt="icon">
+                        class="absolute size-5 transform -translate-y-1/2 top-1/2 right-5" style="pointer-events: none;" alt="icon">
                 </label>
             </div>
             <button type="submit"
@@ -76,7 +76,7 @@
                     <h2 class="font-bold text-[26px] leading-10">Popular Categories</h2>
                     <p>Temukan rumah sesuai kebutuhanmu</p>
                 </div>
-                <a href="#"
+                <a href="{{ route('front.browse') }}"
                     class="group rounded-full border border-tedja-black py-[14px] px-5 hover:bg-tedja-black flex items-center transition-all duration-300">
                     <span class="font-semibold group-hover:text-white transition-all duration-300">Explore All</span>
                 </a>

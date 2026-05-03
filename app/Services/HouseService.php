@@ -17,7 +17,7 @@ class HouseService {
 
     public function searchHouses ($filters) {
 
-        $query = House::query();
+        $query = House::query()->with(['city', 'category']);
 
         if(!empty($filters['city'])) {
             $query->where('city_id', $filters['city']);}
@@ -25,17 +25,29 @@ class HouseService {
         if(!empty($filters['category'])) {
             $query->where('category_id', $filters['category']);}
 
-        $houses = $query->get();
+        if(!empty($filters['keyword'])) {
+            $query->where('name', 'like', '%' . $filters['keyword'] . '%');}
 
-        $category = Category::findOrFail($filters['category'] ?? null);
-        $city = City::findOrFail($filters['city'] ?? null);
+        if(!empty($filters['min_price'])) {
+            $query->where('price', '>=', $filters['min_price']);}
+
+        if(!empty($filters['max_price'])) {
+            $query->where('price', '<=', $filters['max_price']);}
+
+        if(!empty($filters['bedroom'])) {
+            $query->where('bedroom', '>=', $filters['bedroom']);}
+
+        $houses = $query->latest()->get();
+
+        $category = ! empty($filters['category']) ? Category::find($filters['category']) : null;
+        $city = ! empty($filters['city']) ? City::find($filters['city']) : null;
         
-        return compact('houses', 'category', 'city');
+        return compact('houses', 'category', 'city', 'filters');
     }    
 
     public function getHouseDetails($house){
          
-        $house->load(['photos', 'facilities', 'facilities.facility']);
+        $house->load(['category', 'city', 'developer', 'photos', 'facilities', 'facilities.facility', 'interests.bank']);
         return $house;
     }
 }

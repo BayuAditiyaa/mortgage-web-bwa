@@ -16,4 +16,9 @@ class Installment extends Model
     {
         return $this->belongsTo(MortgageRequest::class);
     }
+
+    public function paymentTransactions()
+    {
+        return $this->hasMany(PaymentTransaction::class);
+    }
 }

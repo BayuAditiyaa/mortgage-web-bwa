@@ -8,8 +8,11 @@ const closeModalButton = document.getElementById('closeModal');
 // Add event listeners to all modal buttons
 modalButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        const imgSrc = button.querySelector('img').getAttribute('src'); // Get the image source from the button
+        const previewImage = button.querySelector('img');
+        const imgSrc = previewImage.getAttribute('src'); // Get the image source from the button
+        const imgAlt = previewImage.getAttribute('alt') || 'house gallery image';
         modalImage.setAttribute('src', imgSrc); // Update the modal image source
+        modalImage.setAttribute('alt', imgAlt);
         
         // Show the modal with GSAP animation
         modal.style.display = 'flex';
@@ -24,6 +27,22 @@ modalButtons.forEach((button) => {
 
 // Function to close the modal
 closeModalButton.addEventListener('click', () => {
+    closeGalleryModal();
+});
+
+modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        closeGalleryModal();
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.style.display === 'flex') {
+        closeGalleryModal();
+    }
+});
+
+function closeGalleryModal() {
     gsap.to(modalContent,
         {
             scale: 0.5, opacity: 0, duration: 0.4, ease: 'power2.in', onComplete: () => {
@@ -32,4 +51,4 @@ closeModalButton.addEventListener('click', () => {
             }
         }
     );
-});
+}

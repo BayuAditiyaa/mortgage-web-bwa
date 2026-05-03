@@ -19,6 +19,11 @@
             </div>
         </div>
     </div>
+    @php
+        $mapQuery = trim(($houseDetails->name ?? '') . ' ' . ($houseDetails->city->name ?? ''));
+        $googleMapsKey = config('services.google_maps.key');
+    @endphp
+
     <section id="Gallery" class="flex gap-5 w-full max-w-[1280px] h-[450px] px-[75px] mt-[50px] mx-auto">
         <button class="show-modal-btn relative group flex w-full h-[450px] rounded-[30px] overflow-hidden">
             <img src="{{ Storage::url($houseDetails->thumbnail) }}" class="w-full h-full object-cover"
@@ -75,7 +80,7 @@
                 <div class="flex items-center gap-[6px]">
                     <img src="{{ asset('assets/images/icons/maximize-3.svg') }}" class="size-6 flex shrink-0"
                         alt="icon">
-                    <p class="font-semibold">{{ $houseDetails->land_area }} M²</p>
+                    <p class="font-semibold">{{ $houseDetails->land_area }} m&sup2;</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
@@ -84,7 +89,7 @@
                 <div class="flex items-center gap-[6px]">
                     <img src="{{ asset('assets/images/icons/building-3.svg') }}" class="size-6 flex shrink-0"
                         alt="icon">
-                    <p class="font-semibold">{{ $houseDetails->building_area }} M²</p>
+                    <p class="font-semibold">{{ $houseDetails->building_area }} m&sup2;</p>
                 </div>
             </div>
             <div class="h-[60px] border border-tedja-border"></div>
@@ -121,11 +126,20 @@
                 <h2 class="font-semibold text-[22px] leading-[33px]">Strategic Location</h2>
                 <div class="overflow-hidden w-full h-[320px]">
                     <div id="my-map-display" class="h-full w-full max-w-[none] bg-none">
-                        <iframe class="h-full w-full border-0" frameborder="0"
-                            src="https://www.google.com/maps/embed/v1/place?q=jakarta&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
+                        @if ($googleMapsKey)
+                            <iframe class="h-full w-full border-0" frameborder="0"
+                                src="https://www.google.com/maps/embed/v1/place?q={{ urlencode($mapQuery) }}&key={{ $googleMapsKey }}"></iframe>
+                        @else
+                            <div class="flex h-full w-full flex-col items-center justify-center gap-4 rounded-[20px] border border-tedja-border bg-white p-6 text-center">
+                                <p class="font-semibold">Map preview is not configured yet.</p>
+                                <a class="rounded-full bg-tedja-green px-5 py-[14px] font-semibold"
+                                    href="https://www.google.com/maps/search/?api=1&query={{ urlencode($mapQuery) }}"
+                                    target="_blank" rel="noopener">
+                                    Open in Google Maps
+                                </a>
+                            </div>
+                        @endif
                     </div>
-                    <a class="from-embedmap-code" href="https://www.bootstrapskins.com/themes"
-                        id="enable-map-data">premium bootstrap themes</a>
                 </div>
             </div>
         </div>
@@ -166,12 +180,56 @@
                 </div>
                 <a href="{{ route('front.interest', $interest->id) }}"
                     class="rounded-full py-[6px] px-3 bg-tedja-green font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    Calculate
+                    Simulate
                 </a>
             </div>
             @empty
                 Belum ada interest
             @endforelse
+
+            <hr class="border-x-tedja-border">
+            <section id="PublicMortgageSimulator" class="flex flex-col gap-4 rounded-[20px] border border-tedja-border p-4">
+                <div class="flex flex-col gap-1">
+                    <p class="font-semibold">Quick KPR Simulator</p>
+                    <p class="text-sm text-tedja-secondary">Estimate monthly payment before signing in.</p>
+                </div>
+                <input id="simulator-house-price" type="hidden" value="{{ $houseDetails->price }}">
+                <label class="flex flex-col gap-2">
+                    <span class="text-sm text-tedja-secondary">Down Payment</span>
+                    <select id="simulator-dp"
+                        class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold focus:ring-2 focus:ring-tedja-blue transition-all duration-300">
+                        <option value="10">10%</option>
+                        <option value="20" selected>20%</option>
+                        <option value="40">40%</option>
+                        <option value="50">50%</option>
+                        <option value="60">60%</option>
+                        <option value="80">80%</option>
+                    </select>
+                </label>
+                <label class="flex flex-col gap-2">
+                    <span class="text-sm text-tedja-secondary">Annual Interest</span>
+                    <select id="simulator-interest"
+                        class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-black py-[14px] px-5 font-semibold focus:ring-2 focus:ring-tedja-blue transition-all duration-300">
+                        @forelse ($houseDetails->interests as $interest)
+                            <option value="{{ $interest->interest }}" data-duration="{{ $interest->duration }}">
+                                {{ $interest->bank->name }} - {{ $interest->interest }}% / {{ $interest->duration }} years
+                            </option>
+                        @empty
+                            <option value="6" data-duration="10">Sample 6% / 10 years</option>
+                        @endforelse
+                    </select>
+                </label>
+                <div class="flex flex-col gap-3 rounded-[18px] bg-[#F2F2F4] p-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-tedja-secondary">Loan Amount</span>
+                        <strong id="simulator-loan">Rp 0</strong>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-tedja-secondary">Monthly Payment</span>
+                        <strong id="simulator-monthly" class="text-tedja-blue">Rp 0</strong>
+                    </div>
+                </div>
+            </section>
 
             <hr class="border-x-tedja-border">
             <div class="flex items-center justify-center gap-[6px]">
@@ -186,7 +244,7 @@
     <div id="Gallery-Modal" class="fixed inset-0 items-center justify-center bg-tedja-black/50 flex z-30 hidden">
         <div id="Modal-Content" class="rounded-[50px] flex flex-col gap-5 py-[40px]">
             <div class="flex max-w-[900px] max-h-[600px] overflow-hidden">
-                <img src="{{ asset('assets/images/thumbnails/thumbnails-6.png') }}" class="object-contain"
+                <img src="{{ Storage::url($houseDetails->thumbnail) }}" class="object-contain"
                     alt="thumbnail">
             </div>
             <button id="closeModal"
@@ -204,4 +262,40 @@
 @push('after-scripts')
     <script src="{{ asset('js/gallery.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const priceInput = document.getElementById('simulator-house-price');
+            const dpSelect = document.getElementById('simulator-dp');
+            const interestSelect = document.getElementById('simulator-interest');
+            const loanOutput = document.getElementById('simulator-loan');
+            const monthlyOutput = document.getElementById('simulator-monthly');
+
+            if (!priceInput || !dpSelect || !interestSelect || !loanOutput || !monthlyOutput) {
+                return;
+            }
+
+            const formatCurrency = (value) => `Rp ${Math.round(value).toLocaleString('id-ID')}`;
+
+            const updateSimulator = () => {
+                const housePrice = parseFloat(priceInput.value) || 0;
+                const dpPercentage = parseFloat(dpSelect.value) || 0;
+                const annualInterest = parseFloat(interestSelect.value) || 0;
+                const durationYears = parseFloat(interestSelect.selectedOptions[0]?.dataset.duration) || 1;
+                const loanAmount = housePrice - (housePrice * (dpPercentage / 100));
+                const totalPayments = durationYears * 12;
+                const monthlyInterestRate = annualInterest / 100 / 12;
+                const denominator = Math.pow(1 + monthlyInterestRate, totalPayments) - 1;
+                const monthlyPayment = denominator > 0
+                    ? (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments)) / denominator
+                    : loanAmount / totalPayments;
+
+                loanOutput.textContent = formatCurrency(loanAmount);
+                monthlyOutput.textContent = formatCurrency(monthlyPayment);
+            };
+
+            dpSelect.addEventListener('change', updateSimulator);
+            interestSelect.addEventListener('change', updateSimulator);
+            updateSimulator();
+        });
+    </script>
 @endpush

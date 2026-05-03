@@ -5,7 +5,7 @@
           <aside class="h-screen min-w-[270px] overflow-y-auto bg-tedja-black text-white [&::-webkit-scrollbar]:hidden">
               <div class="flex h-full w-full flex-col gap-[40px] pt-[40px]">
                   <div class="pl-[30px]">
-                      <a href="overview.html" class="shrink-0">
+                      <a href="{{ route('dashboard.overview') }}" class="shrink-0">
                           <img src="{{asset('assets/images/logos/logo-white.svg')}}" alt="icon" />
                       </a>
                   </div>
@@ -14,7 +14,7 @@
                           <h3 class="text-sm font-semibold leading-[21px]">GENERAL</h3>
                           <ul class="flex flex-col gap-[24px]">
                               <li class="group">
-                                  <a href="">
+                                  <a href="{{ route('dashboard.overview') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/overview-n.svg')}}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
@@ -24,7 +24,7 @@
                                   </a>
                               </li>
                               <li class="active group">
-                                  <a href="my-mortgages.html">
+                                  <a href="{{ route('dashboard.mortgages.index') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/mortgages-y.svg')}}" alt="icon"
                                               class="hidden shrink-0 group-[&.active]:block" />
@@ -34,7 +34,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
+                                  <a href="{{ route('dashboard.bank-interests') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/bank-interests-n.svg')}}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
@@ -44,7 +44,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
+                                  <a href="{{ route('dashboard.rewards') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/big-rewards-n.svg')}}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
@@ -59,7 +59,7 @@
                           <h3 class="text-sm font-semibold leading-[21px]">OTHERS</h3>
                           <ul class="flex flex-col gap-[24px]">
                               <li class="group">
-                                  <a href="">
+                                  <a href="{{ route('dashboard.help-center') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/help-center-n.svg')}}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
@@ -69,7 +69,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
+                                  <a href="{{ route('dashboard.support') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/supports-n.svg')}}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
@@ -79,7 +79,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
+                                  <a href="{{ route('dashboard.settings') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{asset('assets/images/icons/settings-n.svg')}}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
@@ -95,6 +95,10 @@
           </aside>
           <div class="h-screen w-full overflow-y-auto pt-[30px] px-[30px]">
               <section id="NavTop" class="flex w-full items-center justify-between bg-white p-4 rounded-3xl">
+                  <button type="button"
+                      class="dashboard-sidebar-toggle hidden rounded-full border border-tedja-black py-[12px] px-5 font-semibold">
+                      Menu
+                  </button>
                   <form class="relative">
                       <button type="submit" class="absolute right-5 top-1/2 shrink-0 translate-y-[-50%]">
                           <img src="{{asset('assets/images/icons/search.svg')}}" alt="icon" />
@@ -105,19 +109,19 @@
                   </form>
                   <div class="flex items-center gap-5">
                       <div class="flex items-center gap-[12px]">
-                          <a href="" class="shrink-0">
+                          <a href="{{ route('dashboard.support') }}" class="shrink-0">
                               <div
                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
                                   <img src="{{asset('assets/images/icons/device-message.svg')}}" alt="icon" />
                               </div>
                           </a>
-                          <a href="" class="shrink-0">
+                          <a href="{{ route('dashboard.rewards') }}" class="shrink-0">
                               <div
                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
                                   <img src="{{asset('assets/images/icons/cup.svg')}}" alt="icon" />
                               </div>
                           </a>
-                          <a href="" class="shrink-0">
+                          <a href="{{ route('dashboard.settings') }}" class="shrink-0">
                               <div
                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
                                   <img src="{{asset('assets/images/icons/folder-favorite.svg')}}" alt="icon" />
@@ -140,22 +144,24 @@
                           <ul
                               class="hidden absolute top-full mt-[10px] right-0 flex flex-col w-[170px] shrink-0 h-fit text-left rounded-xl border border-tedja-border py-5 px-5 bg-white shadow-[0px_10px_30px_0px_#B8B8B840] gap-[14px]">
                               <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Rewards</a>
+                                  <a href="{{ route('dashboard.rewards') }}" class="hover:text-tedja-blue transition-all duration-300">Rewards</a>
                               </li>
                               <li>
-                                  <a href="my-mortgages.html" class="hover:text-tedja-blue transition-all duration-300">My
+                                  <a href="{{ route('dashboard.mortgages.index') }}" class="hover:text-tedja-blue transition-all duration-300">My
                                       Mortgages</a>
                               </li>
                               <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Learn
-                                      Property</a>
+                                  <a href="{{ route('front.stories') }}" class="hover:text-tedja-blue transition-all duration-300">Learn Property</a>
                               </li>
                               <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Settings</a>
+                                  <a href="{{ route('dashboard.settings') }}" class="hover:text-tedja-blue transition-all duration-300">Settings</a>
                               </li>
                               <li>
-                                  <a href="index.html"
-                                      class="hover:text-tedja-blue transition-all duration-300">Logout</a>
+                                  <form method="POST" action="{{ route('logout') }}">
+                                      @csrf
+                                      <a href="{{ route('logout') }}" class="hover:text-tedja-blue transition-all duration-300"
+                                          onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+                                  </form>
                               </li>
                           </ul>
                       </button>
@@ -210,11 +216,11 @@
                                   </div>
                                   <div class="flex items-center gap-[6px] p-[10px] border border-[#F2F2F4] rounded-[14px]">
                                       <img src="{{asset('assets/images/icons/building.svg')}}" alt="icon" class="shrink-0 size-5">
-                                      <p class="font-semibold text-sm leading-[21px]">{{ $installmentDetails->mortgageRequest->house->building_area }} M²</p>
+                                      <p class="font-semibold text-sm leading-[21px]">{{ $installmentDetails->mortgageRequest->house->building_area }} m&sup2;</p>
                                   </div>
                                   <div class="flex items-center gap-[6px] p-[10px] border border-[#F2F2F4] rounded-[14px]">
                                       <img src="{{asset('assets/images/icons/maximize.svg')}}" alt="icon" class="shrink-0 size-5">
-                                      <p class="font-semibold text-sm leading-[21px]">{{ $installmentDetails->mortgageRequest->house->land_area }} M²</p>
+                                      <p class="font-semibold text-sm leading-[21px]">{{ $installmentDetails->mortgageRequest->house->land_area }} m&sup2;</p>
                                   </div>
                                   <div class="flex items-center gap-[6px] p-[10px] border border-[#F2F2F4] rounded-[14px]">
                                       <img src="{{asset('assets/images/icons/note-favorite.svg')}}" alt="icon"
@@ -309,3 +315,4 @@
       <script src="js/navbar-dropdown.js"></script>
       <script src="js/my-mortgages-details.js"></script>
   @endpush
+

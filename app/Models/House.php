@@ -17,7 +17,7 @@ class House extends Model
      *
      */
 
-    protected $fillable = ['name', 'slug', 'thumbnail', 'certificate', 'about', 'price', 'bedroom', 'bathroom', 'electric', 'land_area', 'building_area', 'category_id', 'city_id'];
+    protected $fillable = ['developer_id', 'name', 'slug', 'thumbnail', 'certificate', 'about', 'price', 'bedroom', 'bathroom', 'electric', 'land_area', 'building_area', 'category_id', 'city_id'];
 
     public function setNameAttribute($value)
     {
@@ -28,6 +28,11 @@ class House extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function developer()
+    {
+        return $this->belongsTo(User::class, 'developer_id');
     }
 
     public function city()

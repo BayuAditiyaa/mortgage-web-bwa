@@ -9,12 +9,15 @@ Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/details/{house:slug}', [FrontController::class, 'details'])->name('front.details');
 Route::get('/search', [FrontController::class, 'search'])->name('front.search');
+Route::get('/browse', [FrontController::class, 'browse'])->name('front.browse');
+Route::get('/rewards', [FrontController::class, 'rewards'])->name('front.rewards');
+Route::get('/stories', [FrontController::class, 'stories'])->name('front.stories');
 
 Route::match(['get', 'post'], '/mortgage/interest/payment/midtrans/notification', [DashboardController::class, 'paymentMidtransNotification'])->name('front.payment_midtrans_notification');
 
   
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('dashboard.mortgages.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -33,6 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/request/success', [FrontController::class, 'request_success'])->name('front.request_success'); 
 
     Route::get('/dashboard/mortgages', [DashboardController::class, 'index'])->name('dashboard.mortgages.index');
+    Route::get('/dashboard/overview', [DashboardController::class, 'overview'])->name('dashboard.overview');
+    Route::get('/dashboard/bank-interests', [DashboardController::class, 'bankInterests'])->name('dashboard.bank-interests');
+    Route::get('/dashboard/rewards', [DashboardController::class, 'rewards'])->name('dashboard.rewards');
+    Route::get('/dashboard/help-center', [DashboardController::class, 'helpCenter'])->name('dashboard.help-center');
+    Route::get('/dashboard/support', [DashboardController::class, 'support'])->name('dashboard.support');
+    Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('dashboard.settings');
     
     Route::get('/dashboard/mortgage/{mortgageRequest}', [DashboardController::class, 'details'])->name('dashboard.installment.details');
 

@@ -17,6 +17,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
@@ -27,6 +28,7 @@ use App\Filament\Resources\MortgageRequestResource\RelationManagers\Installments
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Support\Facades\Auth;
 
 class MortgageRequestResource extends Resource
 {
@@ -48,13 +50,13 @@ class MortgageRequestResource extends Resource
                                 ->schema([
                                     Select::make('house_id')
                                         ->label('House')
-                                        ->options(House::query()->pluck('name', 'id'))
+                                        ->options(fn () => static::getScopedHouseQuery()->pluck('name', 'id'))
                                         ->searchable()
                                         ->preload()
                                         ->required()
                                         ->live()
                                         ->afterStateUpdated(function ($state, callable $set) {
-                                            $house = House::find($state);
+                                            $house = static::getScopedHouseQuery()->find($state);
                                             if ($house) {
                                                 $set('house_price', $house->price ?? 0);
                                             }
@@ -66,6 +68,7 @@ class MortgageRequestResource extends Resource
                                             $houseId = $get('house_id');
                                             if ($houseId) {
                                                 return Interest::where('house_id', $houseId)
+                                                    ->whereHas('house', fn (Builder $query) => static::scopeDeveloperHouseQuery($query))
                                                     ->get()
                                                     ->pluck('interest', 'id' );
                                             }
@@ -76,7 +79,7 @@ class MortgageRequestResource extends Resource
                                         ->required()
                                         ->live()
                                         ->afterStateUpdated(function ($state, callable $set) {
-                                            $interest = Interest::find($state);
+                                            $interest = Interest::whereHas('house', fn (Builder $query) => static::scopeDeveloperHouseQuery($query))->find($state);
                                             if ($interest) {
                                                 $set('bank_name', $interest->bank->name ?? '');
                                                 $set('interest', $interest->interest);
@@ -182,7 +185,7 @@ class MortgageRequestResource extends Resource
                     Step::make('Customer Information')
                         ->schema([
                             Select::make('user_id')
-                                ->relationship('customer', 'email')
+                                ->relationship('customer', 'email', fn (Builder $query) => $query->role('customer'))
                                 ->searchable()
                                 ->preload()
                                 ->required()
@@ -190,8 +193,8 @@ class MortgageRequestResource extends Resource
                                 ->afterStateUpdated(function ($state, callable $set) {
                                     $user = User::find($state);
 
-                                    $name = $user->name;
-                                    $email = $user->email;
+                                    $name = $user?->name;
+                                    $email = $user?->email;
 
                                     $set('name', $name);
                                     $set('email', $email);
@@ -200,8 +203,8 @@ class MortgageRequestResource extends Resource
                                     $userId = $state;
                                     if ($userId) {
                                         $user = User::find($userId);
-                                        $name = $user->name;
-                                        $email = $user->email;
+                                        $name = $user?->name;
+                                        $email = $user?->email;
 
                                         $set('name', $name);
                                         $set('email', $email);
@@ -253,10 +256,32 @@ class MortgageRequestResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('house.name'),
-                TextColumn::make('status'),
+
+                TextColumn::make('house.developer.name')
+                    ->label('Developer')
+                    ->toggleable(),
+
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Approved' => 'success',
+                        'Rejected' => 'danger',
+                        default => 'warning',
+                    }),
+
+                TextColumn::make('loan_interest_total_amount')
+                    ->label('Total Contract')
+                    ->money('IDR')
+                    ->sortable(),
 
             ])
             ->filters([
+                SelectFilter::make('status')
+                    ->options([
+                        'Waiting for Bank' => 'Waiting for Bank',
+                        'Approved' => 'Approved',
+                        'Rejected' => 'Rejected',
+                    ]),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
@@ -297,8 +322,25 @@ class MortgageRequestResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->when(
+                Auth::user()?->hasRole('developer') && ! Auth::user()?->hasRole('admin'),
+                fn (Builder $query) => $query->whereHas('house', fn (Builder $query) => $query->where('developer_id', Auth::id()))
+            )
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    private static function getScopedHouseQuery(): Builder
+    {
+        return static::scopeDeveloperHouseQuery(House::query());
+    }
+
+    private static function scopeDeveloperHouseQuery(Builder $query): Builder
+    {
+        return $query->when(
+            Auth::user()?->hasRole('developer') && ! Auth::user()?->hasRole('admin'),
+            fn (Builder $query) => $query->where('developer_id', Auth::id())
+        );
     }
 }

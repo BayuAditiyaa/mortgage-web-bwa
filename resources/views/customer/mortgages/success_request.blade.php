@@ -2,7 +2,7 @@
    @section('title', 'House Details page')
    @section('content')
        <x-navbar />
-       <div class="flex justify-center gap-[50px] mt-[202px] mb-[70px]">
+       <div id="MortgageSuccessLayout" class="flex justify-center gap-[50px] mt-[202px] mb-[70px]">
            <div class="flex flex-col h-fit rounded-[30px] ring-1 ring-tedja-border p-[10px] pb-5 gap-3 bg-white">
                <div class="thumbnail-container relative w-full h-[240px] rounded-[30px] overflow-hidden">
                    <img src="{{Storage::url($interest->house->thumbnail)}}" class="w-full h-full object-cover" alt="thumbnail">
@@ -27,11 +27,11 @@
                        </div>
                        <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                            <img src="{{asset('assets/images/icons/building-3.svg')}}" class="size-5 flex shrink-0" alt="icon">
-                           <p class="font-semibold text-sm">{{ $interest->house->building_area }} M²</p>
+                           <p class="font-semibold text-sm">{{ $interest->house->building_area }} m&sup2;</p>
                        </div>
                        <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                            <img src="{{asset('assets/images/icons/maximize-3.svg')}}" class="size-5 flex shrink-0" alt="icon">
-                           <p class="font-semibold text-sm">{{ $interest->house->land_area }} M²</p>
+                           <p class="font-semibold text-sm">{{ $interest->house->land_area }} m&sup2;</p>
                        </div>
                        <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                            <img src="{{asset('assets/images/icons/note-favorite.svg')}}" class="size-5 flex shrink-0" alt="icon">

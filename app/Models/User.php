@@ -15,9 +15,14 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
-       public function canAccessPanel(Panel $panel): bool
+    public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole('admin');
+        return $this->hasAnyRole(['admin', 'developer']);
+    }
+
+    public function houses()
+    {
+        return $this->hasMany(House::class, 'developer_id');
     }
 
     /**

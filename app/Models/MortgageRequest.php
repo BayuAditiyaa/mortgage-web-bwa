@@ -31,7 +31,29 @@ class MortgageRequest extends Model
         return $this->hasMany(Installment::class);
     }
 
-    public function getRemainingLoantAmountAttribute() {
+    public function paymentTransactions()
+    {
+        return $this->hasMany(PaymentTransaction::class);
+    }
+
+    public function isPaidOff(): bool
+    {
+        return $this->remaining_loan_amount <= 0
+            || $this->installments()->where('is_paid', true)->count() >= ($this->duration * 12);
+    }
+
+    public function getRemainingLoanAmountAttribute()
+    {
+        return $this->calculateRemainingLoanAmount();
+    }
+
+    public function getRemainingLoantAmountAttribute()
+    {
+        return $this->calculateRemainingLoanAmount();
+    }
+
+    private function calculateRemainingLoanAmount()
+    {
 
         if($this->installments()->count() === 0){
             return $this->loan_interest_total_amount;

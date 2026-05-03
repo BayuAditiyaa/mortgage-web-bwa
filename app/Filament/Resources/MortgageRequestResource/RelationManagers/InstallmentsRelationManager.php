@@ -34,7 +34,8 @@ class InstallmentsRelationManager extends RelationManager
                                 ->label('No of Payment')
                                 ->helperText('Pembayaran cicilan ke berapa')
                                 ->required()
-                                ->numeric(),
+                                ->numeric()
+                                ->maxValue(fn () => $this->getOwnerRecord()->duration * 12),
 
                             Select::make('sub_total_amount')
                                 ->label('Monthly Payment')
@@ -159,7 +160,8 @@ class InstallmentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->visible(fn () => ! $this->getOwnerRecord()->isPaidOff()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

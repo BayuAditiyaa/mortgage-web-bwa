@@ -19,9 +19,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
+use Illuminate\Support\Facades\Auth;
 
 class HouseResource extends Resource
 {
@@ -39,6 +41,14 @@ class HouseResource extends Resource
                 Fieldset::make('Details')
                     ->schema([
                         TextInput::make('name')->maxLength(255)->required(),
+
+                        Select::make('developer_id')
+                            ->label('Developer')
+                            ->relationship('developer', 'name', fn (Builder $query) => $query->role('developer'))
+                            ->searchable()
+                            ->preload()
+                            ->visible(fn () => Auth::user()?->hasRole('admin'))
+                            ->required(fn () => Auth::user()?->hasRole('admin')),
 
                         TextInput::make('price')->required()->numeric()->prefix('IDR'),
 
@@ -113,11 +123,24 @@ class HouseResource extends Resource
 
                 TextColumn::make('name')->searchable(),
                 
+                TextColumn::make('developer.name')
+                    ->label('Developer')
+                    ->toggleable(),
+                
                 TextColumn::make('category.name'),
 
                 TextColumn::make('city.name'),
+
+                TextColumn::make('price')
+                    ->money('IDR')
+                    ->sortable(),
             ])
             ->filters([
+                SelectFilter::make('developer_id')
+                    ->label('Developer')
+                    ->relationship('developer', 'name', fn (Builder $query) => $query->role('developer'))
+                    ->visible(fn () => Auth::user()?->hasRole('admin')),
+
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
@@ -151,6 +174,10 @@ class HouseResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->when(
+                Auth::user()?->hasRole('developer') && ! Auth::user()?->hasRole('admin'),
+                fn (Builder $query) => $query->where('developer_id', Auth::id())
+            )
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

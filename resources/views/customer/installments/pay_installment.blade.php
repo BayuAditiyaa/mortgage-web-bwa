@@ -5,7 +5,7 @@
           <aside class="h-screen min-w-[270px] overflow-y-auto bg-tedja-black text-white [&::-webkit-scrollbar]:hidden">
               <div class="flex h-full w-full flex-col gap-[40px] pt-[40px]">
                   <div class="pl-[30px]">
-                      <a href="overview.html" class="shrink-0">
+                      <a href="{{ route('dashboard.overview') }}" class="shrink-0">
                           <img src="{{ asset('assets/images/logos/logo-white.svg') }}" alt="icon" />
                       </a>
                   </div>
@@ -14,9 +14,7 @@
                           <h3 class="text-sm font-semibold leading-[21px]">GENERAL</h3>
                           <ul class="flex flex-col gap-[24px]">
                               <li class="group">
-                                  <a href="">
-                                      <div class="relative flex items-center gap-[6px]">
-                                          <img src="{{ asset('assets/images/icons/overview-n.svg') }}" alt="icon"
+                                  <a href="{{ route('dashboard.overview') }}"><div class="relative flex items-center gap-[6px]"><img src="{{ asset('assets/images/icons/overview-n.svg') }}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
                                           <p class="group-[&.active]:font-semibold group-[&.active]:text-tedja-green">
                                               Overview</p>
@@ -24,7 +22,7 @@
                                   </a>
                               </li>
                               <li class="active group">
-                                  <a href="my-mortgages.html">
+                                  <a href="{{ route('dashboard.mortgages.index') }}">
                                       <div class="relative flex items-center gap-[6px]">
                                           <img src="{{ asset('assets/images/icons/mortgages-y.svg') }}" alt="icon"
                                               class="hidden shrink-0 group-[&.active]:block" />
@@ -34,9 +32,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
-                                      <div class="relative flex items-center gap-[6px]">
-                                          <img src="{{ asset('assets/images/icons/bank-interests-n.svg') }}" alt="icon"
+                                  <a href="{{ route('dashboard.bank-interests') }}"><div class="relative flex items-center gap-[6px]"><img src="{{ asset('assets/images/icons/bank-interests-n.svg') }}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
                                           <p class="group-[&.active]:font-semibold group-[&.active]:text-tedja-green">Bank
                                               Interests</p>
@@ -44,9 +40,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
-                                      <div class="relative flex items-center gap-[6px]">
-                                          <img src="{{ asset('assets/images/icons/big-rewards-n.svg') }}" alt="icon"
+                                  <a href="{{ route('dashboard.rewards') }}"><div class="relative flex items-center gap-[6px]"><img src="{{ asset('assets/images/icons/big-rewards-n.svg') }}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
                                           <p class="group-[&.active]:font-semibold group-[&.active]:text-tedja-green">Big
                                               Rewards</p>
@@ -59,9 +53,7 @@
                           <h3 class="text-sm font-semibold leading-[21px]">OTHERS</h3>
                           <ul class="flex flex-col gap-[24px]">
                               <li class="group">
-                                  <a href="">
-                                      <div class="relative flex items-center gap-[6px]">
-                                          <img src="{{ asset('assets/images/icons/help-center-n.svg') }}" alt="icon"
+                                  <a href="{{ route('dashboard.help-center') }}"><div class="relative flex items-center gap-[6px]"><img src="{{ asset('assets/images/icons/help-center-n.svg') }}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
                                           <p class="group-[&.active]:font-semibold group-[&.active]:text-tedja-green">Help
                                               Center</p>
@@ -69,9 +61,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
-                                      <div class="relative flex items-center gap-[6px]">
-                                          <img src="{{ asset('assets/images/icons/supports-n.svg') }}" alt="icon"
+                                  <a href="{{ route('dashboard.support') }}"><div class="relative flex items-center gap-[6px]"><img src="{{ asset('assets/images/icons/supports-n.svg') }}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
                                           <p class="group-[&.active]:font-semibold group-[&.active]:text-tedja-green">
                                               Supports</p>
@@ -79,9 +69,7 @@
                                   </a>
                               </li>
                               <li class="group">
-                                  <a href="">
-                                      <div class="relative flex items-center gap-[6px]">
-                                          <img src="{{ asset('assets/images/icons/settings-n.svg') }}" alt="icon"
+                                  <a href="{{ route('dashboard.settings') }}"><div class="relative flex items-center gap-[6px]"><img src="{{ asset('assets/images/icons/settings-n.svg') }}" alt="icon"
                                               class="shrink-0 group-[&.active]:hidden" />
                                           <p class="group-[&.active]:font-semibold group-[&.active]:text-tedja-green">
                                               Settings</p>
@@ -95,6 +83,10 @@
           </aside>
           <div class="h-screen w-full overflow-y-auto pt-[30px] px-[30px]">
               <section id="NavTop" class="flex w-full items-center justify-between bg-white p-4 rounded-3xl">
+                  <button type="button"
+                      class="dashboard-sidebar-toggle hidden rounded-full border border-tedja-black py-[12px] px-5 font-semibold">
+                      Menu
+                  </button>
                   <form class="relative">
                       <button type="submit" class="absolute right-5 top-1/2 shrink-0 translate-y-[-50%]">
                           <img src="{{ asset('assets/images/icons/search.svg') }}" alt="icon" />
@@ -105,19 +97,19 @@
                   </form>
                   <div class="flex items-center gap-5">
                       <div class="flex items-center gap-[12px]">
-                          <a href="" class="shrink-0">
+                          <a href="{{ route('dashboard.support') }}" class="shrink-0">
                               <div
                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
                                   <img src="{{ asset('assets/images/icons/device-message.svg') }}" alt="icon" />
                               </div>
                           </a>
-                          <a href="" class="shrink-0">
+                          <a href="{{ route('dashboard.rewards') }}" class="shrink-0">
                               <div
                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
                                   <img src="{{ asset('assets/images/icons/cup.svg') }}" alt="icon" />
                               </div>
                           </a>
-                          <a href="" class="shrink-0">
+                          <a href="{{ route('dashboard.settings') }}" class="shrink-0">
                               <div
                                   class="p-[13px] rounded-full border border-[#F2F2F4] hover:ring-[2px] hover:ring-tedja-blue transition-all duration-300">
                                   <img src="{{ asset('assets/images/icons/folder-favorite.svg') }}" alt="icon" />
@@ -133,25 +125,24 @@
                                   <p class="font-semibold">{{ Auth::user()->name }}</p>
                               </div>
                               <div class="flex rounded-full size-[50px] overflow-hidden">
-                                  <img src="{{ Storage::url(Auth::user()->photo) }}" class="w-full h-full object-cover"
+                                  <img src="{{ Auth::user()->photo ? Storage::url(Auth::user()->photo) : asset('assets/images/icons/default-avatar.svg') }}" class="w-full h-full object-cover"
                                       alt="photo">
                               </div>
                           </div>
                           <ul
                               class="hidden absolute top-full mt-[10px] right-0 flex flex-col w-[170px] shrink-0 h-fit text-left rounded-xl border border-tedja-border py-5 px-5 bg-white shadow-[0px_10px_30px_0px_#B8B8B840] gap-[14px]">
                               <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Rewards</a>
+                                  <a href="{{ route('dashboard.rewards') }}" class="hover:text-tedja-blue transition-all duration-300">Rewards</a>
                               </li>
                               <li>
                                   <a href="{{ route('dashboard') }}"
                                       class="hover:text-tedja-blue transition-all duration-300">My Mortgages</a>
                               </li>
                               <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Learn
-                                      Property</a>
+                                  <a href="{{ route('front.stories') }}" class="hover:text-tedja-blue transition-all duration-300">Learn Property</a>
                               </li>
                               <li>
-                                  <a href="#" class="hover:text-tedja-blue transition-all duration-300">Settings</a>
+                                  <a href="{{ route('dashboard.settings') }}" class="hover:text-tedja-blue transition-all duration-300">Settings</a>
                               </li>
                               <li>
                                   <form method="POST" action="{{ route('logout') }}">
@@ -223,13 +214,13 @@
                                       <img src="{{ asset('assets/images/icons/building.svg') }}" alt="icon"
                                           class="shrink-0 size-5">
                                       <p class="font-semibold text-sm leading-[21px]">
-                                          {{ $mortgageRequest->house->building_area }} M²</p>
+                                          {{ $mortgageRequest->house->building_area }} m&sup2;</p>
                                   </div>
                                   <div class="flex items-center gap-[6px] p-[10px] border border-[#F2F2F4] rounded-[14px]">
                                       <img src="{{ asset('assets/images/icons/maximize.svg') }}" alt="icon"
                                           class="shrink-0 size-5">
                                       <p class="font-semibold text-sm leading-[21px]">
-                                          {{ $mortgageRequest->house->land_area }} M²</p>
+                                          {{ $mortgageRequest->house->land_area }} m&sup2;</p>
                                   </div>
                                   <div class="flex items-center gap-[6px] p-[10px] border border-[#F2F2F4] rounded-[14px]">
                                       <img src="{{ asset('assets/images/icons/note-favorite.svg') }}" alt="icon"
@@ -370,8 +361,6 @@
     return response.json();
 })
             .then(data => {
-                console.log(data.snap_token);
-                
                 if(data.snap_token){
                     snap.pay(data.snap_token, {
                         onSuccess: function (result) {
@@ -389,14 +378,11 @@
                                window.location.href = '{{ route('dashboard') }}'; }
                     });
                 } else {
-                       console.log(data);
-                    alert('Error 1: ' , data.error);
+                    alert(data.error || 'Payment failed. Please try again.');
                 }
             }).catch(error => {
-                // console.log(data);
-                
-                alert('masih salah cok')
-                console.error('Error 2: ' , error)});
+                alert(error.message || 'Payment failed. Please try again.');
+            });
         })
       </script>
       <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -404,3 +390,4 @@
       <script src="{{ asset('js/jquery.js') }}"></script>
       <script src="{{ asset('js/navbar-dropdown.js') }}"></script>
   @endpush
+

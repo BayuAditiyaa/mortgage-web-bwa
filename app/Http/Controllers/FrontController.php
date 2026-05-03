@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\House;
+use App\Models\Bank;
+use App\Models\City;
 use App\Models\Category;
 use App\Models\Interest;
 use Illuminate\Http\Request;
@@ -31,6 +33,57 @@ class FrontController extends Controller
         $filters = $request->all();
         $houses = $this->houseService->searchHouses($filters);
         return view('front.search', $houses);
+    }
+
+    public function browse()
+    {
+        $houses = House::query()
+            ->with(['city', 'category', 'developer', 'interests.bank'])
+            ->latest()
+            ->take(9)
+            ->get();
+
+        $categories = Category::query()
+            ->withCount('houses')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        $cities = City::query()
+            ->withCount('houses')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('front.browse', compact('houses', 'categories', 'cities'));
+    }
+
+    public function rewards()
+    {
+        $banks = Bank::query()
+            ->whereHas('interest')
+            ->withCount('interest')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $bestInterest = Interest::query()
+            ->with('bank')
+            ->orderBy('interest')
+            ->first();
+
+        return view('front.rewards', compact('banks', 'bestInterest'));
+    }
+
+    public function stories()
+    {
+        $houses = House::query()
+            ->with(['city', 'category', 'developer'])
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('front.stories', compact('houses'));
     }
 
     public function category(Category $category) {

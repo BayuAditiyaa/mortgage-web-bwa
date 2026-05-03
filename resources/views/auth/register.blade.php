@@ -73,7 +73,7 @@
                       <label class="relative">
                           <img src="assets/images/icons/lock.svg"
                               class="absolute size-6 transform -translate-y-1/2 top-1/2 left-5" alt="icon">
-                          <input type="password_confirmation" name="password"
+                          <input type="password" name="password_confirmation"
                               class="appearance-none outline-none w-full rounded-full ring-1 ring-tedja-border py-[14px] pl-[54px] px-5 font-semibold placeholder:font-normal focus:ring-1 focus:ring-tedja-blue transition-all duration-300"
                               placeholder="Type your password">
                       </label>

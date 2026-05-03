@@ -3,7 +3,7 @@
 return [
     'serverKey' => env('MIDTRANS_SERVER_KEY'),
     'clientKey' => env('MIDTRANS_CLIENT_KEY'),
-    'isProduction' => env('MIDTRANS_IS_PRODUCTION'),
-    'isSanitized' => env('MIDTRANS_SANITIZE'),
-    'is3ds' => env('MIDTRANS_3DS'),
+    'isProduction' => env('MIDTRANS_IS_PRODUCTION', false),
+    'isSanitized' => env('MIDTRANS_IS_SANITIZED', env('MIDTRANS_SANITIZE', true)),
+    'is3ds' => env('MIDTRANS_IS_3DS', env('MIDTRANS_3DS', true)),
 ];

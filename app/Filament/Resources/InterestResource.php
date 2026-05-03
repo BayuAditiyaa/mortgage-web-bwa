@@ -13,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\InterestResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\InterestResource\RelationManagers;
@@ -32,7 +33,14 @@ class InterestResource extends Resource
                 //
 
                 Select::make('house_id')
-                    ->relationship('house', 'name')
+                    ->relationship(
+                        'house',
+                        'name',
+                        fn (Builder $query) => $query->when(
+                            Auth::user()?->hasRole('developer') && ! Auth::user()?->hasRole('admin'),
+                            fn (Builder $query) => $query->where('developer_id', Auth::id())
+                        )
+                    )
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -104,6 +112,10 @@ class InterestResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->when(
+                Auth::user()?->hasRole('developer') && ! Auth::user()?->hasRole('admin'),
+                fn (Builder $query) => $query->whereHas('house', fn (Builder $query) => $query->where('developer_id', Auth::id()))
+            )
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

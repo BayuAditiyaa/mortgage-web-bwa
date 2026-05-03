@@ -50,7 +50,7 @@
                             <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                                 <img src="{{asset('assets/images/icons/maximize-3.svg')}}" class="size-5 flex shrink-0"
                                     alt="icon">
-                                <p class="font-semibold text-sm">{{ $house->land_area }} M²</p>
+                                <p class="font-semibold text-sm">{{ $house->land_area }} m&sup2;</p>
                             </div>
                         </div>
                     </div>

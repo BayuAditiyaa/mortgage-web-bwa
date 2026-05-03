@@ -1,9 +1,9 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "portfolio/mortgage-web-bwa",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "A Laravel mortgage marketplace and installment payment portfolio project.",
+    "keywords": ["laravel", "mortgage", "filament", "midtrans", "portfolio"],
     "license": "MIT",
     "require": {
         "php": "^8.2",

@@ -6,6 +6,7 @@ use App\Models\Installment;
 use App\Models\Interest;
 use App\Models\MortgageRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class MortgageService
 {
@@ -14,23 +15,35 @@ class MortgageService
     public function handleInterestRequest($request)
     {
         $validatedData = $request->validate([
-            'dp_percentage' => 'required|integer|min:0|max:100',
+            'dp_percentage' => 'required|integer|min:10|max:80',
             'interest_id' => 'required|integer|exists:interests,id',
             'documents' => 'required|file|mimes:pdf|max:2048'
         ]);
 
-        $interest = Interest::findOrfail($validatedData['interest_id']);
-        $house = $interest->house();
-        $mortgageDetails = $this->calculateMortgageDetails($house, $interest, $validatedData['dp_percentage']);
+        $interest = Interest::with(['house', 'bank'])->findOrFail($validatedData['interest_id']);
+
+        $hasActiveRequest = MortgageRequest::where('user_id', Auth::id())
+            ->where('house_id', $interest->house_id)
+            ->whereNotIn('status', ['Rejected', 'Paid Off'])
+            ->exists();
+
+        if ($hasActiveRequest) {
+            throw ValidationException::withMessages([
+                'interest_id' => 'You already have an active mortgage request for this house.',
+            ]);
+        }
+
+        $mortgageDetails = $this->calculateMortgageDetails($interest, $validatedData['dp_percentage']);
 
         $documentPath = $this->uploadDocument($request);
 
         return $this->createMortgageRequest($mortgageDetails, $documentPath);
     }
 
-    public function calculateMortgageDetails($house, $interest, $dpPercentage)
+    public function calculateMortgageDetails(Interest $interest, int $dpPercentage)
     {
-        $housePrice = $interest->house->price;
+        $house = $interest->house;
+        $housePrice = $house->price;
         $dpTotalAmount = $housePrice * ($dpPercentage / 100);
         $loanTotalAmount = $housePrice - $dpTotalAmount;
         $durationYears = $interest->duration;
@@ -91,7 +104,9 @@ class MortgageService
 
     public function getInterestFromSession()
     {
-        return Interest::findOrFail(session('interest_id')) ?? null;
+        $interestId = session('interest_id');
+
+        return $interestId ? Interest::find($interestId) : null;
     }
 
     public function getUserMortgages($userId)
@@ -101,15 +116,21 @@ class MortgageService
 
     public function getMortgageDetails(MortgageRequest $mortgageRequest)
     {
-        $mortgageRequest->load(['house.city', 'house.category', 'installments']);
+        $mortgageRequest->load(['house.city', 'house.category', 'interestModel.bank', 'installments']);
         $monthlyPayment = $mortgageRequest->monthly_amount;
         $insurance = 900000;
         $totalTaxAmount = round($monthlyPayment * 0.11);
+        $totalInstallments = max($mortgageRequest->duration * 12, 1);
+        $paidInstallments = $mortgageRequest->installments->where('is_paid', true)->count();
+        $installmentProgressPercentage = min(100, round(($paidInstallments / $totalInstallments) * 100));
 
         return compact(
             'mortgageRequest',
             'insurance',
             'totalTaxAmount',
+            'totalInstallments',
+            'paidInstallments',
+            'installmentProgressPercentage',
         );
     }
 
@@ -120,13 +141,14 @@ class MortgageService
 
     public function getInstallmentPaymentDetails(MortgageRequest $mortgageRequest)
     {
-        $remainingLoanAmount = $mortgageRequest->remaining_loant_amount;
+        $remainingLoanAmount = $mortgageRequest->remaining_loan_amount;
         $mortgageRequest->load(['house.city', 'house.category']);
         $monthlyPayment = $mortgageRequest->monthly_amount;
         $insurance = 900000;
         $totalTaxAmount = round($monthlyPayment * 0.11);
         $grandTotalAmount = $monthlyPayment + $insurance + $totalTaxAmount;
         $remainingLoanAmountAfterPayment = $remainingLoanAmount - $monthlyPayment;
+        $remainingLoanAmountAfterPayment = max($remainingLoanAmountAfterPayment, 0);
 
         return compact(
             'mortgageRequest',
@@ -141,19 +163,6 @@ class MortgageService
 
     public function getMortgageRequest($mortgageRequestId)
     {
-    //     // Cari data
-    // $mortgage = MortgageRequest::find($mortgageRequestId);
-
-    // // Cek secara manual jika hasilnya null
-    // if ($mortgage === null) {
-    //     // Alihkan ke halaman lain dengan pesan error
-    //     return redirect()->route('front.index')->with('error', 'Data KPR tidak ditemukan!');
-    // }
-
-    // return $mortgage;
-
-    // // Jika ditemukan, lanjutkan
-    // // return view('mortgages.show', compact('mortgage'));
-        return MortgageRequest::findOrFail($mortgageRequestId);
+        return MortgageRequest::where('user_id', Auth::id())->findOrFail($mortgageRequestId);
     }
 }

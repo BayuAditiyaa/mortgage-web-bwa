@@ -3,7 +3,7 @@
  @section('content')
      <x-navbar />
 
-     <div
+     <div id="MortgageRequestHeader"
          class="relative w-full max-w-[1280px] px-[75px] mt-[164px] flex flex-col gap-[6px] text-center items-center mx-auto">
          <h1 class="font-bold text-4xl leading-[54px]">Request for Mortgage</h1>
          <p>We will give you best of life forever young yay</p>
@@ -13,7 +13,7 @@
              <span class="font-semibold">Back to Details</span>
          </a>
      </div>
-     <div class="flex justify-center gap-[30px] mt-[50px] mb-[70px]">
+     <div id="MortgageRequestLayout" class="flex justify-center gap-[30px] mt-[50px] mb-[70px]">
          <div class="relative">
              <div
                  class="sticky top-[144px] flex flex-col w-[357px] shrink-0 h-fit rounded-[30px] ring-1 ring-tedja-border p-[10px] pb-5 gap-3 bg-white">
@@ -45,12 +45,12 @@
                          <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                              <img src="{{ asset('assets/images/icons/building-3.svg') }}" class="size-5 flex shrink-0"
                                  alt="icon">
-                             <p class="font-semibold text-sm">{{ $interest->house->building_area }} M²</p>
+                             <p class="font-semibold text-sm">{{ $interest->house->building_area }} m&sup2;</p>
                          </div>
                          <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                              <img src="{{ asset('assets/images/icons/maximize-3.svg') }}" class="size-5 flex shrink-0"
                                  alt="icon">
-                             <p class="font-semibold text-sm">{{ $interest->house->land_area }} M²</p>
+                             <p class="font-semibold text-sm">{{ $interest->house->land_area }} m&sup2;</p>
                          </div>
                          <div class="flex items-center rounded-[14px] border border-tedja-border p-[10px] gap-[6px]">
                              <img src="{{ asset('assets/images/icons/note-favorite.svg') }}" class="size-5 flex shrink-0"
