@@ -34,7 +34,7 @@ class DeveloperFilamentScopeTest extends TestCase
     {
         [$developer, $otherDeveloper] = $this->createDevelopers();
         $admin = User::factory()->create();
-        $admin->assignRole(Role::firstOrCreate(['name' => 'admin']));
+        $admin->assignRole(Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']));
 
         $this->createHouseFor($developer, 'own-house');
         $this->createHouseFor($otherDeveloper, 'other-house');
@@ -60,7 +60,7 @@ class DeveloperFilamentScopeTest extends TestCase
 
     private function createDevelopers(): array
     {
-        $developerRole = Role::firstOrCreate(['name' => 'developer']);
+        $developerRole = Role::firstOrCreate(['name' => 'developer', 'guard_name' => 'web']);
 
         $developer = User::factory()->create();
         $otherDeveloper = User::factory()->create();

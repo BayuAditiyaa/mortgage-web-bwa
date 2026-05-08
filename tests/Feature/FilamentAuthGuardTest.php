@@ -23,7 +23,7 @@ class FilamentAuthGuardTest extends TestCase
     public function test_admin_guard_can_access_filament_panel(): void
     {
         $admin = User::factory()->create();
-        $admin->assignRole(Role::firstOrCreate(['name' => 'admin']));
+        $admin->assignRole(Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']));
 
         $this->actingAs($admin, 'admin')
             ->get('/admin')

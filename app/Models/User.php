@@ -15,6 +15,8 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
+    protected string $guard_name = 'web';
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasAnyRole(['admin', 'developer']);

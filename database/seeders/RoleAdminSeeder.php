@@ -17,11 +17,11 @@ class RoleAdminSeeder extends Seeder
     {
         //
 
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'developer']);
-        Role::firstOrCreate(['name' => 'lender']);
-        Role::firstOrCreate(['name' => 'agent']);
-        Role::firstOrCreate(['name' => 'customer']);
+        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'developer', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'lender', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'agent', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'web']);
 
         $admin = User::firstOrCreate([
             'email' => 'admin@mortgage.test',
