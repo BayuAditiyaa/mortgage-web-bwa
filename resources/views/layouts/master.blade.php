@@ -15,7 +15,6 @@
     @yield('content')
      <script src="{{ asset('js/navbar-dropdown.js') }}"></script>
      <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
-     <script src="{{ asset('js/output.js') }}"></script>
      <script src="{{ asset('js/dashboard-sidebar.js') }}"></script>
      
     @stack('after-scripts')

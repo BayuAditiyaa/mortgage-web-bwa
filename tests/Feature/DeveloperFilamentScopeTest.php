@@ -22,7 +22,7 @@ class DeveloperFilamentScopeTest extends TestCase
         $ownHouse = $this->createHouseFor($developer, 'own-house');
         $this->createHouseFor($otherDeveloper, 'other-house');
 
-        $this->actingAs($developer);
+        $this->actingAs($developer, 'admin');
 
         $houses = HouseResource::getEloquentQuery()->pluck('id');
 
@@ -39,7 +39,7 @@ class DeveloperFilamentScopeTest extends TestCase
         $this->createHouseFor($developer, 'own-house');
         $this->createHouseFor($otherDeveloper, 'other-house');
 
-        $this->actingAs($admin);
+        $this->actingAs($admin, 'admin');
 
         $this->assertCount(2, HouseResource::getEloquentQuery()->pluck('id'));
     }
@@ -50,7 +50,7 @@ class DeveloperFilamentScopeTest extends TestCase
         $ownMortgage = $this->createMortgageRequestFor($this->createHouseFor($developer, 'own-house'));
         $this->createMortgageRequestFor($this->createHouseFor($otherDeveloper, 'other-house'));
 
-        $this->actingAs($developer);
+        $this->actingAs($developer, 'admin');
 
         $mortgages = MortgageRequestResource::getEloquentQuery()->pluck('id');
 
