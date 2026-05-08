@@ -167,7 +167,7 @@
                           </li>
                           <li>/</li>
                           <li>
-                              <a href="{{ route('dashboard.mortgage.details', $mortgageRequest) }}">Details</a>
+                              <a href="{{ route('dashboard.installment.details', $mortgageRequest) }}">Details</a>
                           </li>
                           <li>/</li>
                           <li>
@@ -364,7 +364,7 @@
                 if(data.snap_token){
                     snap.pay(data.snap_token, {
                         onSuccess: function (result) {
-                            window.location.href = `/dashboard/mortgages/{{ $mortgageRequest->id }}`;
+                            window.location.href = '{{ route('dashboard.installment.details', $mortgageRequest) }}';
                         },
                         onPending: function (result) {
                             alert('Transaction Pending')

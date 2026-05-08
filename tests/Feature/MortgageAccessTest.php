@@ -24,6 +24,17 @@ class MortgageAccessTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_user_can_open_plural_mortgage_details_url_after_payment_redirect(): void
+    {
+        $owner = User::factory()->create();
+        $mortgageRequest = $this->createMortgageRequestFor($owner);
+
+        $this->actingAs($owner)
+            ->get(route('dashboard.mortgages.show', $mortgageRequest))
+            ->assertOk()
+            ->assertSee('Installment Progress');
+    }
+
     public function test_user_cannot_open_another_users_installment_payment_page(): void
     {
         $owner = User::factory()->create();

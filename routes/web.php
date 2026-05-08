@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/mortgages/installment/{installment}', [DashboardController::class, 'installment_details'])->name('dashboard.mortgage.details');
 
+    Route::get('/dashboard/mortgages/{mortgageRequest}', [DashboardController::class, 'details'])->name('dashboard.mortgages.show');
+
 
 });
 
